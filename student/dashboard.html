@@ -1,0 +1,3077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CampusConnect | Student Dashboard</title>
+
+<style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:"Segoe UI",Arial,sans-serif;
+    background:#02030d;
+    color:white;
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+
+/* =========================================================
+   3D BACKGROUND
+========================================================= */
+
+.background{
+    position:fixed;
+    inset:0;
+    z-index:-100;
+    overflow:hidden;
+
+    background:
+        radial-gradient(
+            circle at 50% 42%,
+            rgba(0,170,255,.12),
+            transparent 24%
+        ),
+        radial-gradient(
+            circle at 15% 15%,
+            rgba(0,255,255,.12),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 85% 18%,
+            rgba(130,50,255,.15),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 50% 100%,
+            rgba(0,255,180,.07),
+            transparent 35%
+        ),
+        #02030d;
+
+    perspective:1000px;
+}
+
+
+/* =========================================================
+   STARS
+========================================================= */
+
+.stars{
+    position:absolute;
+    inset:0;
+
+    background-image:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.9) 1px,
+            transparent 1px
+        ),
+        radial-gradient(
+            circle,
+            rgba(0,220,255,.7) 1px,
+            transparent 1px
+        ),
+        radial-gradient(
+            circle,
+            rgba(150,100,255,.7) 1px,
+            transparent 1px
+        );
+
+    background-size:
+        95px 95px,
+        145px 145px,
+        190px 190px;
+
+    background-position:
+        0 0,
+        40px 70px,
+        100px 20px;
+
+    opacity:.35;
+
+    animation:starsMove 25s linear infinite;
+}
+
+@keyframes starsMove{
+
+    0%{
+        transform:translate3d(0,0,0) scale(1);
+    }
+
+    50%{
+        transform:translate3d(-20px,35px,0) scale(1.03);
+    }
+
+    100%{
+        transform:translate3d(0,70px,0) scale(1);
+    }
+}
+
+
+/* =========================================================
+   PARTICLES
+========================================================= */
+
+.particles{
+    position:absolute;
+    inset:0;
+
+    background-image:
+        radial-gradient(
+            circle,
+            rgba(0,234,255,.8) 1px,
+            transparent 1px
+        );
+
+    background-size:65px 65px;
+
+    opacity:.16;
+
+    animation:particleFlow 14s linear infinite;
+}
+
+@keyframes particleFlow{
+
+    from{
+        transform:
+            translateY(0)
+            translateX(0);
+    }
+
+    to{
+        transform:
+            translateY(-65px)
+            translateX(30px);
+    }
+}
+
+
+/* =========================================================
+   ORBS
+========================================================= */
+
+.orb{
+    position:absolute;
+    border-radius:50%;
+    pointer-events:none;
+}
+
+.orb-blue{
+
+    width:420px;
+    height:420px;
+
+    left:-170px;
+    top:-130px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0,234,255,.20) 0%,
+            rgba(0,150,255,.08) 35%,
+            transparent 70%
+        );
+
+    filter:blur(8px);
+
+    animation:blueOrb 12s ease-in-out infinite;
+}
+
+@keyframes blueOrb{
+
+    0%,100%{
+        transform:
+            translate3d(0,0,0)
+            scale(1);
+    }
+
+    50%{
+        transform:
+            translate3d(90px,70px,0)
+            scale(1.15);
+    }
+}
+
+
+.orb-purple{
+
+    width:500px;
+    height:500px;
+
+    right:-210px;
+    top:50px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(135,65,255,.21) 0%,
+            rgba(90,40,255,.08) 38%,
+            transparent 72%
+        );
+
+    filter:blur(10px);
+
+    animation:purpleOrb 15s ease-in-out infinite;
+}
+
+@keyframes purpleOrb{
+
+    0%,100%{
+        transform:
+            translate3d(0,0,0)
+            scale(1);
+    }
+
+    50%{
+        transform:
+            translate3d(-100px,80px,0)
+            scale(1.12);
+    }
+}
+
+
+.orb-green{
+
+    width:350px;
+    height:350px;
+
+    left:38%;
+    bottom:-190px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0,255,190,.14),
+            transparent 70%
+        );
+
+    filter:blur(12px);
+
+    animation:greenOrb 11s ease-in-out infinite;
+}
+
+@keyframes greenOrb{
+
+    0%,100%{
+        transform:translate(0,0);
+    }
+
+    50%{
+        transform:translate(80px,-90px);
+    }
+}
+
+
+/* =========================================================
+   ENERGY CORE
+========================================================= */
+
+.energy-core{
+
+    position:absolute;
+
+    width:260px;
+    height:260px;
+
+    left:50%;
+    top:45%;
+
+    transform:
+        translate(-50%,-50%);
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0,234,255,.18) 0%,
+            rgba(0,180,255,.08) 25%,
+            transparent 68%
+        );
+
+    animation:corePulse 5s ease-in-out infinite;
+}
+
+@keyframes corePulse{
+
+    0%,100%{
+        transform:
+            translate(-50%,-50%)
+            scale(.9);
+
+        opacity:.45;
+    }
+
+    50%{
+        transform:
+            translate(-50%,-50%)
+            scale(1.25);
+
+        opacity:.8;
+    }
+}
+
+
+/* =========================================================
+   3D RINGS
+========================================================= */
+
+.ring{
+
+    position:absolute;
+
+    left:50%;
+    top:45%;
+
+    border-radius:50%;
+
+    border:
+        1px solid rgba(0,234,255,.30);
+
+    box-shadow:
+        0 0 18px rgba(0,234,255,.12),
+        inset 0 0 18px rgba(0,234,255,.05);
+
+    pointer-events:none;
+}
+
+.ring1{
+
+    width:300px;
+    height:300px;
+
+    transform:
+        translate(-50%,-50%)
+        rotateX(65deg);
+
+    animation:ringRotate1 15s linear infinite;
+}
+
+@keyframes ringRotate1{
+
+    from{
+        transform:
+            translate(-50%,-50%)
+            rotateX(65deg)
+            rotateZ(0deg);
+    }
+
+    to{
+        transform:
+            translate(-50%,-50%)
+            rotateX(65deg)
+            rotateZ(360deg);
+    }
+}
+
+
+.ring2{
+
+    width:430px;
+    height:170px;
+
+    border-color:
+        rgba(140,80,255,.28);
+
+    transform:
+        translate(-50%,-50%)
+        rotateX(70deg)
+        rotateZ(20deg);
+
+    animation:
+        ringRotate2 18s linear infinite reverse;
+}
+
+@keyframes ringRotate2{
+
+    from{
+        transform:
+            translate(-50%,-50%)
+            rotateX(70deg)
+            rotateZ(20deg);
+    }
+
+    to{
+        transform:
+            translate(-50%,-50%)
+            rotateX(70deg)
+            rotateZ(380deg);
+    }
+}
+
+
+.ring3{
+
+    width:540px;
+    height:220px;
+
+    border-color:
+        rgba(0,255,200,.13);
+
+    transform:
+        translate(-50%,-50%)
+        rotateY(65deg);
+
+    animation:
+        ringRotate3 22s linear infinite;
+}
+
+@keyframes ringRotate3{
+
+    from{
+        transform:
+            translate(-50%,-50%)
+            rotateY(65deg)
+            rotateZ(0deg);
+    }
+
+    to{
+        transform:
+            translate(-50%,-50%)
+            rotateY(65deg)
+            rotateZ(360deg);
+    }
+}
+
+
+/* =========================================================
+   HORIZON
+========================================================= */
+
+.horizon{
+
+    position:absolute;
+
+    width:100%;
+    height:2px;
+
+    top:62%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #00eaff,
+            #6955ff,
+            #00ffd0,
+            #00eaff,
+            transparent
+        );
+
+    box-shadow:
+        0 0 12px #00eaff,
+        0 0 35px rgba(0,234,255,.6),
+        0 0 80px rgba(100,70,255,.3);
+
+    opacity:.8;
+
+    animation:
+        horizonPulse 4s ease-in-out infinite;
+}
+
+@keyframes horizonPulse{
+
+    0%,100%{
+        opacity:.45;
+    }
+
+    50%{
+        opacity:.9;
+    }
+}
+
+
+/* =========================================================
+   3D FLOOR
+========================================================= */
+
+.grid-floor{
+
+    position:absolute;
+
+    left:-55%;
+
+    width:210%;
+    height:75%;
+
+    bottom:-32%;
+
+    transform:
+        perspective(700px)
+        rotateX(63deg);
+
+    transform-origin:
+        center top;
+
+    background-image:
+        linear-gradient(
+            rgba(0,220,255,.17) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(0,220,255,.17) 1px,
+            transparent 1px
+        );
+
+    background-size:
+        75px 75px;
+
+    mask-image:
+        linear-gradient(
+            to bottom,
+            transparent,
+            black 15%,
+            black 80%,
+            transparent
+        );
+
+    -webkit-mask-image:
+        linear-gradient(
+            to bottom,
+            transparent,
+            black 15%,
+            black 80%,
+            transparent
+        );
+
+    opacity:.5;
+
+    animation:
+        gridMove 7s linear infinite;
+}
+
+@keyframes gridMove{
+
+    from{
+        background-position:
+            0 0,
+            0 0;
+    }
+
+    to{
+        background-position:
+            0 75px,
+            75px 0;
+    }
+}
+
+
+/* =========================================================
+   BEAMS
+========================================================= */
+
+.beam{
+
+    position:absolute;
+
+    width:2px;
+    height:65%;
+
+    top:5%;
+
+    background:
+        linear-gradient(
+            to bottom,
+            transparent,
+            rgba(0,234,255,.25),
+            transparent
+        );
+
+    filter:blur(1px);
+
+    transform-origin:
+        bottom center;
+
+    opacity:.45;
+}
+
+.beam1{
+
+    left:20%;
+
+    transform:
+        rotate(18deg);
+
+    animation:
+        beamMove1 9s ease-in-out infinite;
+}
+
+.beam2{
+
+    left:72%;
+
+    transform:
+        rotate(-16deg);
+
+    animation:
+        beamMove2 11s ease-in-out infinite;
+}
+
+@keyframes beamMove1{
+
+    0%,100%{
+        opacity:.15;
+        transform:
+            rotate(18deg)
+            scaleY(.8);
+    }
+
+    50%{
+        opacity:.55;
+        transform:
+            rotate(25deg)
+            scaleY(1.1);
+    }
+}
+
+@keyframes beamMove2{
+
+    0%,100%{
+        opacity:.15;
+        transform:
+            rotate(-16deg)
+            scaleY(.8);
+    }
+
+    50%{
+        opacity:.5;
+        transform:
+            rotate(-24deg)
+            scaleY(1.1);
+    }
+}
+
+
+/* =========================================================
+   LAYOUT
+========================================================= */
+
+.layout{
+    display:flex;
+    min-height:100vh;
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar{
+
+    width:270px;
+    min-height:100vh;
+
+    position:fixed;
+
+    left:0;
+    top:0;
+    bottom:0;
+
+    padding:25px 18px;
+
+    background:
+        rgba(3,7,25,.78);
+
+    border-right:
+        1px solid rgba(0,220,255,.18);
+
+    backdrop-filter:
+        blur(22px);
+
+    box-shadow:
+        10px 0 50px rgba(0,0,0,.35);
+
+    z-index:100;
+}
+
+.logo{
+
+    display:flex;
+    align-items:center;
+
+    gap:12px;
+
+    margin-bottom:35px;
+
+    padding:5px 8px;
+}
+
+.logo-icon{
+
+    width:45px;
+    height:45px;
+
+    border-radius:14px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:21px;
+    font-weight:bold;
+
+    background:
+        linear-gradient(
+            135deg,
+            #00eaff,
+            #6955ff
+        );
+
+    box-shadow:
+        0 0 20px rgba(0,234,255,.45);
+}
+
+.logo-text h2{
+
+    font-size:19px;
+    letter-spacing:.4px;
+}
+
+.logo-text span{
+
+    color:#73eaff;
+    font-size:11px;
+}
+
+.menu-title{
+
+    color:#70809d;
+
+    font-size:11px;
+
+    text-transform:uppercase;
+
+    letter-spacing:1.5px;
+
+    margin:
+        0 10px 12px;
+}
+
+.menu{
+
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+}
+
+.menu a{
+
+    text-decoration:none;
+
+    color:#aab6ce;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:13px;
+
+    padding:13px 14px;
+
+    border-radius:12px;
+
+    transition:.25s;
+
+    font-size:14px;
+}
+
+.menu a:hover{
+
+    color:white;
+
+    background:
+        rgba(0,220,255,.09);
+
+    transform:
+        translateX(4px);
+
+    box-shadow:
+        0 0 18px rgba(0,220,255,.08);
+}
+
+.menu a.active{
+
+    color:white;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0,220,255,.18),
+            rgba(100,70,255,.15)
+        );
+
+    border:
+        1px solid rgba(0,220,255,.20);
+
+    box-shadow:
+        inset 0 0 20px rgba(0,220,255,.04),
+        0 0 15px rgba(0,220,255,.05);
+}
+
+.menu-icon{
+
+    width:27px;
+    height:27px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:8px;
+
+    background:
+        rgba(255,255,255,.06);
+
+    font-size:14px;
+}
+
+.sidebar-bottom{
+
+    position:absolute;
+
+    left:18px;
+    right:18px;
+
+    bottom:20px;
+}
+
+.user-mini{
+
+    padding:14px;
+
+    border-radius:16px;
+
+    background:
+        rgba(255,255,255,.045);
+
+    border:
+        1px solid rgba(255,255,255,.08);
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+}
+
+.avatar{
+
+    width:38px;
+    height:38px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-weight:bold;
+
+    background:
+        linear-gradient(
+            135deg,
+            #00d9ff,
+            #7657ff
+        );
+
+    box-shadow:
+        0 0 15px rgba(0,217,255,.3);
+}
+
+.user-mini-info{
+    overflow:hidden;
+}
+
+.user-mini-info strong{
+
+    display:block;
+
+    font-size:13px;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+}
+
+.user-mini-info span{
+
+    display:block;
+
+    color:#70809d;
+
+    font-size:11px;
+
+    margin-top:3px;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.main{
+
+    width:
+        calc(100% - 270px);
+
+    margin-left:270px;
+
+    padding:28px;
+}
+
+.topbar{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-bottom:28px;
+}
+
+.welcome small{
+
+    color:#71819c;
+
+    font-size:13px;
+}
+
+.welcome h1{
+
+    margin-top:5px;
+
+    font-size:28px;
+
+    background:
+        linear-gradient(
+            90deg,
+            white,
+            #7eefff,
+            #b39cff
+        );
+
+    -webkit-background-clip:text;
+
+    background-clip:text;
+
+    color:transparent;
+}
+
+.top-actions{
+
+    display:flex;
+    gap:10px;
+}
+
+
+/* =========================================================
+   TOP BUTTONS
+========================================================= */
+
+.icon-btn{
+
+    width:42px;
+    height:42px;
+
+    border-radius:12px;
+
+    border:
+        1px solid rgba(255,255,255,.09);
+
+    background:
+        rgba(255,255,255,.045);
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    backdrop-filter:blur(10px);
+}
+
+.icon-btn:hover{
+
+    transform:
+        translateY(-2px)
+        scale(1.05);
+
+    border-color:
+        rgba(0,220,255,.3);
+
+    background:
+        rgba(0,220,255,.08);
+
+    box-shadow:
+        0 0 20px rgba(0,220,255,.12);
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+
+    position:relative;
+
+    overflow:hidden;
+
+    padding:32px;
+
+    border-radius:24px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,180,255,.10),
+            rgba(105,70,255,.12)
+        );
+
+    border:
+        1px solid rgba(255,255,255,.10);
+
+    backdrop-filter:
+        blur(18px);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.30),
+        inset 0 0 50px rgba(0,220,255,.025);
+
+    margin-bottom:25px;
+}
+
+.hero::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:400px;
+    height:400px;
+
+    border-radius:50%;
+
+    right:-160px;
+    top:-210px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0,234,255,.20),
+            transparent 70%
+        );
+
+    animation:
+        heroGlow 7s ease-in-out infinite;
+}
+
+@keyframes heroGlow{
+
+    0%,100%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.3);
+    }
+}
+
+.hero-content{
+
+    position:relative;
+    z-index:2;
+}
+
+.hero-tag{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:7px;
+
+    padding:7px 11px;
+
+    border-radius:30px;
+
+    font-size:11px;
+
+    color:#8cefff;
+
+    background:
+        rgba(0,220,255,.08);
+
+    border:
+        1px solid rgba(0,220,255,.16);
+
+    margin-bottom:14px;
+}
+
+.hero h2{
+
+    font-size:31px;
+
+    line-height:1.25;
+
+    margin-bottom:10px;
+}
+
+.hero p{
+
+    color:#9eabc1;
+
+    font-size:14px;
+
+    line-height:1.7;
+
+    max-width:650px;
+}
+
+.hero-buttons{
+
+    display:flex;
+
+    gap:12px;
+
+    margin-top:22px;
+
+    flex-wrap:wrap;
+}
+
+.primary-btn,
+.secondary-btn{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:8px;
+
+    padding:
+        12px 18px;
+
+    border-radius:12px;
+
+    text-decoration:none;
+
+    font-size:13px;
+
+    transition:.25s;
+}
+
+.primary-btn{
+
+    color:#041019;
+
+    background:
+        linear-gradient(
+            135deg,
+            #00eaff,
+            #62a7ff
+        );
+
+    font-weight:700;
+
+    box-shadow:
+        0 8px 25px rgba(0,220,255,.20);
+}
+
+.primary-btn:hover{
+
+    transform:
+        translateY(-3px);
+}
+
+.secondary-btn{
+
+    color:#dbe6f7;
+
+    border:
+        1px solid rgba(255,255,255,.12);
+
+    background:
+        rgba(255,255,255,.045);
+}
+
+.secondary-btn:hover{
+
+    background:
+        rgba(255,255,255,.08);
+
+    transform:
+        translateY(-3px);
+
+    border-color:
+        rgba(0,220,255,.22);
+}
+
+
+/* =========================================================
+   SECTION TITLES
+========================================================= */
+
+.section-title{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin:
+        25px 0 13px;
+}
+
+.section-title h3{
+    font-size:16px;
+}
+
+.section-title span{
+
+    color:#65758f;
+    font-size:11px;
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.stats{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:15px;
+}
+
+.stat-card{
+
+    padding:20px;
+
+    border-radius:18px;
+
+    background:
+        rgba(255,255,255,.045);
+
+    border:
+        1px solid rgba(255,255,255,.08);
+
+    backdrop-filter:
+        blur(15px);
+
+    transition:.3s;
+}
+
+.stat-card:hover{
+
+    transform:
+        translateY(-5px);
+
+    border-color:
+        rgba(0,220,255,.18);
+}
+
+.stat-icon{
+
+    width:38px;
+    height:38px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:11px;
+
+    background:
+        rgba(0,220,255,.09);
+
+    margin-bottom:13px;
+}
+
+.stat-card:nth-child(2) .stat-icon{
+
+    background:
+        rgba(130,80,255,.11);
+}
+
+.stat-card:nth-child(3) .stat-icon{
+
+    background:
+        rgba(0,255,180,.10);
+}
+
+.stat-card:nth-child(4) .stat-icon{
+
+    background:
+        rgba(255,180,60,.10);
+}
+
+.stat-number{
+
+    font-size:25px;
+
+    font-weight:700;
+}
+
+.stat-label{
+
+    color:#7d8ba3;
+
+    font-size:12px;
+
+    margin-top:5px;
+}
+
+
+/* =========================================================
+   QUICK ACTIONS
+========================================================= */
+
+.actions{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:14px;
+}
+
+.action-card{
+
+    text-decoration:none;
+
+    color:white;
+
+    padding:19px;
+
+    border-radius:17px;
+
+    background:
+        rgba(255,255,255,.042);
+
+    border:
+        1px solid rgba(255,255,255,.075);
+
+    transition:.3s;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    backdrop-filter:
+        blur(12px);
+}
+
+.action-card:hover{
+
+    transform:
+        translateY(-4px);
+
+    background:
+        rgba(0,220,255,.07);
+
+    border-color:
+        rgba(0,220,255,.20);
+}
+
+.action-icon{
+
+    min-width:45px;
+
+    height:45px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,220,255,.12),
+            rgba(100,70,255,.12)
+        );
+
+    font-size:19px;
+}
+
+.action-card strong{
+
+    display:block;
+
+    font-size:13px;
+
+    margin-bottom:4px;
+}
+
+.action-card span{
+
+    color:#77869e;
+
+    font-size:11px;
+}
+
+
+/* =========================================================
+   OPPORTUNITIES
+========================================================= */
+
+.opportunities{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:15px;
+}
+
+.opportunity{
+
+    padding:20px;
+
+    border-radius:18px;
+
+    background:
+        rgba(255,255,255,.043);
+
+    border:
+        1px solid rgba(255,255,255,.08);
+
+    transition:.3s;
+
+    backdrop-filter:
+        blur(12px);
+}
+
+.opportunity:hover{
+
+    transform:
+        translateY(-4px);
+
+    border-color:
+        rgba(0,220,255,.18);
+}
+
+.company-row{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+}
+
+.company-logo{
+
+    width:43px;
+    height:43px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,220,255,.13),
+            rgba(100,70,255,.13)
+        );
+
+    font-weight:700;
+
+    font-size:13px;
+}
+
+.company-row h4{
+    font-size:14px;
+}
+
+.company-row p{
+
+    color:#71809a;
+
+    font-size:11px;
+
+    margin-top:3px;
+}
+
+.job-details{
+
+    display:flex;
+
+    gap:8px;
+
+    flex-wrap:wrap;
+
+    margin:17px 0;
+}
+
+.badge{
+
+    font-size:10px;
+
+    color:#9eabc0;
+
+    padding:
+        6px 9px;
+
+    border-radius:7px;
+
+    background:
+        rgba(255,255,255,.05);
+}
+
+.job-bottom{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+}
+
+.salary{
+
+    color:#74eaff;
+
+    font-size:12px;
+
+    font-weight:600;
+}
+
+.view-btn{
+
+    color:white;
+
+    text-decoration:none;
+
+    padding:
+        8px 12px;
+
+    border-radius:9px;
+
+    background:
+        rgba(0,220,255,.09);
+
+    border:
+        1px solid rgba(0,220,255,.14);
+
+    font-size:11px;
+
+    transition:.2s;
+}
+
+.view-btn:hover{
+
+    background:
+        rgba(0,220,255,.17);
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+
+    text-align:center;
+
+    color:#52617a;
+
+    font-size:11px;
+
+    padding:
+        35px 0 15px;
+}
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+.mobile-menu{
+
+    display:none;
+
+    position:fixed;
+
+    top:15px;
+    left:15px;
+
+    width:43px;
+    height:43px;
+
+    border:
+        1px solid rgba(255,255,255,.1);
+
+    background:
+        rgba(5,10,30,.90);
+
+    color:white;
+
+    border-radius:12px;
+
+    z-index:200;
+
+    cursor:pointer;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1100px){
+
+    .stats{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+}
+
+@media(max-width:800px){
+
+    .sidebar{
+
+        transform:
+            translateX(-100%);
+
+        transition:.3s;
+    }
+
+    .sidebar.show{
+
+        transform:
+            translateX(0);
+    }
+
+    .mobile-menu{
+
+        display:block;
+    }
+
+    .main{
+
+        width:100%;
+
+        margin-left:0;
+
+        padding:
+            75px 18px 25px;
+    }
+
+    .welcome h1{
+        font-size:23px;
+    }
+
+    .hero{
+        padding:23px;
+    }
+
+    .hero h2{
+        font-size:24px;
+    }
+
+    .opportunities{
+        grid-template-columns:1fr;
+    }
+
+    .ring2,
+    .ring3{
+        display:none;
+    }
+
+    .energy-core{
+
+        width:180px;
+        height:180px;
+    }
+}
+
+@media(max-width:550px){
+
+    .stats{
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+        gap:10px;
+    }
+
+    .stat-card{
+        padding:15px;
+    }
+
+    .stat-number{
+        font-size:21px;
+    }
+
+    .actions{
+        grid-template-columns:1fr;
+    }
+
+    .hero-buttons{
+        flex-direction:column;
+    }
+
+    .primary-btn,
+    .secondary-btn{
+        width:100%;
+    }
+
+    .top-actions{
+        display:none;
+    }
+
+    .ring1{
+
+        width:220px;
+        height:220px;
+    }
+
+    .orb-purple{
+
+        width:300px;
+        height:300px;
+    }
+
+    .orb-blue{
+
+        width:280px;
+        height:280px;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<!-- =========================================================
+     3D BACKGROUND
+========================================================= -->
+
+<div class="background">
+
+    <div class="stars"></div>
+
+    <div class="particles"></div>
+
+    <div class="orb orb-blue"></div>
+
+    <div class="orb orb-purple"></div>
+
+    <div class="orb orb-green"></div>
+
+    <div class="energy-core"></div>
+
+    <div class="ring ring1"></div>
+
+    <div class="ring ring2"></div>
+
+    <div class="ring ring3"></div>
+
+    <div class="beam beam1"></div>
+
+    <div class="beam beam2"></div>
+
+    <div class="horizon"></div>
+
+    <div class="grid-floor"></div>
+
+</div>
+
+
+<!-- =========================================================
+     MOBILE MENU
+========================================================= -->
+
+<button
+    class="mobile-menu"
+    onclick="toggleSidebar()">
+
+    ☰
+
+</button>
+
+
+<div class="layout">
+
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<aside
+    class="sidebar"
+    id="sidebar">
+
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            CC
+        </div>
+
+        <div class="logo-text">
+
+            <h2>
+                CampusConnect
+            </h2>
+
+            <span>
+                Student Portal
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="menu-title">
+        Main Menu
+    </div>
+
+
+    <nav class="menu">
+
+
+        <!-- DASHBOARD -->
+
+        <a
+            href="dashboard.html"
+            class="active">
+
+            <span class="menu-icon">
+                ⌂
+            </span>
+
+            <span>
+                Dashboard
+            </span>
+
+        </a>
+
+
+        <!-- PROFILE -->
+
+        <a href="profile.html">
+
+            <span class="menu-icon">
+                👤
+            </span>
+
+            <span>
+                My Profile
+            </span>
+
+        </a>
+
+
+        <!-- JOBS -->
+
+        <a href="jobs.html">
+
+            <span class="menu-icon">
+                💼
+            </span>
+
+            <span>
+                Jobs
+            </span>
+
+        </a>
+
+
+        <!-- INTERNSHIPS -->
+
+        <a href="internships.html">
+
+            <span class="menu-icon">
+                🎓
+            </span>
+
+            <span>
+                Internships
+            </span>
+
+        </a>
+
+
+        <!-- APPLICATIONS -->
+
+        <a href="applications.html">
+
+            <span class="menu-icon">
+                📋
+            </span>
+
+            <span>
+                Applications
+            </span>
+
+        </a>
+
+    </nav>
+
+
+    <div
+        class="menu-title"
+        style="margin-top:28px;">
+
+        Other
+
+    </div>
+
+
+    <nav class="menu">
+
+
+        <!-- NOTIFICATIONS -->
+
+        <a href="notifications.html">
+
+            <span class="menu-icon">
+                🔔
+            </span>
+
+            <span>
+                Notifications
+            </span>
+
+        </a>
+
+
+        <!-- SUPPORT -->
+
+        <a href="support.html">
+
+            <span class="menu-icon">
+                💬
+            </span>
+
+            <span>
+                Campus Support
+            </span>
+
+        </a>
+
+
+        <!-- HOME -->
+
+        <a href="../index.html">
+
+            <span class="menu-icon">
+                🌐
+            </span>
+
+            <span>
+                Home Page
+            </span>
+
+        </a>
+
+
+        <!-- LOGOUT -->
+
+        <a
+            href="../login.html"
+            onclick="logoutUser(event)">
+
+            <span class="menu-icon">
+                ↪
+            </span>
+
+            <span>
+                Logout
+            </span>
+
+        </a>
+
+    </nav>
+
+
+    <!-- USER -->
+
+    <div class="sidebar-bottom">
+
+        <div class="user-mini">
+
+            <div
+                class="avatar"
+                id="sideAvatar">
+
+                S
+
+            </div>
+
+            <div class="user-mini-info">
+
+                <strong id="sideUserName">
+                    Student
+                </strong>
+
+                <span>
+                    Student Account
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</aside>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="main">
+
+
+    <!-- TOP BAR -->
+
+    <div class="topbar">
+
+        <div class="welcome">
+
+            <small>
+                Welcome back to CampusConnect
+            </small>
+
+            <h1>
+
+                Hello,
+                <span id="userName">
+                    Student
+                </span>
+
+                👋
+
+            </h1>
+
+        </div>
+
+
+        <div class="top-actions">
+
+
+            <!-- NOTIFICATION -->
+
+            <a
+                href="notifications.html"
+                class="icon-btn"
+                title="Notifications"
+                style="
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    text-decoration:none;
+                ">
+
+                🔔
+
+            </a>
+
+
+            <!-- PROFILE -->
+
+            <a
+                href="profile.html"
+                class="icon-btn"
+                title="Profile"
+                style="
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    text-decoration:none;
+                ">
+
+                👤
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         HERO
+    ===================================================== -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+
+            <div class="hero-tag">
+
+                ✦ STUDENT PLACEMENT HUB
+
+            </div>
+
+
+            <h2>
+
+                Build your career.
+                <br>
+
+                Discover your next opportunity.
+
+            </h2>
+
+
+            <p>
+
+                Discover internships and job
+                opportunities, manage your
+                applications, and keep your
+                student information updated
+                from one place.
+
+            </p>
+
+
+            <div class="hero-buttons">
+
+
+                <a
+                    href="profile.html"
+                    class="primary-btn">
+
+                    👤 My Profile
+
+                </a>
+
+
+                <a
+                    href="jobs.html"
+                    class="secondary-btn">
+
+                    💼 Explore Jobs
+
+                </a>
+
+
+                <a
+                    href="internships.html"
+                    class="secondary-btn">
+
+                    🎓 Find Internships
+
+                </a>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         ACTIVITY
+    ===================================================== -->
+
+    <div class="section-title">
+
+        <h3>
+            Your Activity
+        </h3>
+
+        <span>
+            Overview
+        </span>
+
+    </div>
+
+
+    <section class="stats">
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                💼
+            </div>
+
+            <div class="stat-number">
+                24
+            </div>
+
+            <div class="stat-label">
+                Jobs Available
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                🎓
+            </div>
+
+            <div class="stat-number">
+                18
+            </div>
+
+            <div class="stat-label">
+                Internships
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                📋
+            </div>
+
+            <div class="stat-number">
+                0
+            </div>
+
+            <div class="stat-label">
+                Applications
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                ⭐
+            </div>
+
+            <div class="stat-number">
+                0%
+            </div>
+
+            <div class="stat-label">
+                Profile Complete
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+    <!-- =====================================================
+         QUICK ACTIONS
+    ===================================================== -->
+
+    <div class="section-title">
+
+        <h3>
+            Quick Actions
+        </h3>
+
+        <span>
+            Manage your career
+        </span>
+
+    </div>
+
+
+    <section class="actions">
+
+
+        <!-- PROFILE -->
+
+        <a
+            href="profile.html"
+            class="action-card">
+
+            <div class="action-icon">
+                👤
+            </div>
+
+            <div>
+
+                <strong>
+                    My Profile
+                </strong>
+
+                <span>
+                    View and update your student information
+                </span>
+
+            </div>
+
+        </a>
+
+
+        <!-- JOBS -->
+
+        <a
+            href="jobs.html"
+            class="action-card">
+
+            <div class="action-icon">
+                💼
+            </div>
+
+            <div>
+
+                <strong>
+                    Browse Jobs
+                </strong>
+
+                <span>
+                    Explore available job opportunities
+                </span>
+
+            </div>
+
+        </a>
+
+
+        <!-- INTERNSHIPS -->
+
+        <a
+            href="internships.html"
+            class="action-card">
+
+            <div class="action-icon">
+                🎓
+            </div>
+
+            <div>
+
+                <strong>
+                    Find Internships
+                </strong>
+
+                <span>
+                    Discover internship opportunities
+                </span>
+
+            </div>
+
+        </a>
+
+
+        <!-- APPLICATIONS -->
+
+        <a
+            href="applications.html"
+            class="action-card">
+
+            <div class="action-icon">
+                📋
+            </div>
+
+            <div>
+
+                <strong>
+                    My Applications
+                </strong>
+
+                <span>
+                    Track your submitted applications
+                </span>
+
+            </div>
+
+        </a>
+
+
+        <!-- SUPPORT -->
+
+        <a
+            href="support.html"
+            class="action-card">
+
+            <div class="action-icon">
+                🤖
+            </div>
+
+            <div>
+
+                <strong>
+                    CampusConnect Support
+                </strong>
+
+                <span>
+                    Get help with the student portal
+                </span>
+
+            </div>
+
+        </a>
+
+
+        <!-- NOTIFICATIONS -->
+
+        <a
+            href="notifications.html"
+            class="action-card">
+
+            <div class="action-icon">
+                🔔
+            </div>
+
+            <div>
+
+                <strong>
+                    Notifications
+                </strong>
+
+                <span>
+                    Check your latest updates
+                </span>
+
+            </div>
+
+        </a>
+
+
+    </section>
+
+
+    <!-- =====================================================
+         FEATURED OPPORTUNITIES
+    ===================================================== -->
+
+    <div class="section-title">
+
+        <h3>
+            Featured Opportunities
+        </h3>
+
+        <a
+            href="jobs.html"
+            style="
+                color:#70eaff;
+                text-decoration:none;
+                font-size:11px;
+            ">
+
+            View All →
+
+        </a>
+
+    </div>
+
+
+    <section class="opportunities">
+
+
+        <!-- MICROSOFT -->
+
+        <div class="opportunity">
+
+            <div class="company-row">
+
+                <div class="company-logo">
+                    MS
+                </div>
+
+                <div>
+
+                    <h4>
+                        Java Developer
+                    </h4>
+
+                    <p>
+                        Microsoft • Hyderabad
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="job-details">
+
+                <span class="badge">
+                    Full Time
+                </span>
+
+                <span class="badge">
+                    Java
+                </span>
+
+                <span class="badge">
+                    DSA
+                </span>
+
+            </div>
+
+
+            <div class="job-bottom">
+
+                <span class="salary">
+                    ₹8–15 LPA
+                </span>
+
+                <a
+                    href="jobs.html"
+                    class="view-btn">
+
+                    View Job
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- GOOGLE -->
+
+        <div class="opportunity">
+
+            <div class="company-row">
+
+                <div class="company-logo">
+                    G
+                </div>
+
+                <div>
+
+                    <h4>
+                        Software Engineering Intern
+                    </h4>
+
+                    <p>
+                        Google • Bengaluru
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="job-details">
+
+                <span class="badge">
+                    Internship
+                </span>
+
+                <span class="badge">
+                    Python
+                </span>
+
+                <span class="badge">
+                    Software
+                </span>
+
+            </div>
+
+
+            <div class="job-bottom">
+
+                <span class="salary">
+                    ₹40,000 / month
+                </span>
+
+                <a
+                    href="internships.html"
+                    class="view-btn">
+
+                    View Internship
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- AMAZON -->
+
+        <div class="opportunity">
+
+            <div class="company-row">
+
+                <div class="company-logo">
+                    A
+                </div>
+
+                <div>
+
+                    <h4>
+                        Python Developer
+                    </h4>
+
+                    <p>
+                        Amazon • Chennai
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="job-details">
+
+                <span class="badge">
+                    Full Time
+                </span>
+
+                <span class="badge">
+                    Python
+                </span>
+
+                <span class="badge">
+                    Backend
+                </span>
+
+            </div>
+
+
+            <div class="job-bottom">
+
+                <span class="salary">
+                    ₹7–14 LPA
+                </span>
+
+                <a
+                    href="jobs.html"
+                    class="view-btn">
+
+                    View Job
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- INFOSYS -->
+
+        <div class="opportunity">
+
+            <div class="company-row">
+
+                <div class="company-logo">
+                    I
+                </div>
+
+                <div>
+
+                    <h4>
+                        Frontend Developer
+                    </h4>
+
+                    <p>
+                        Infosys • Pune
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="job-details">
+
+                <span class="badge">
+                    Full Time
+                </span>
+
+                <span class="badge">
+                    HTML
+                </span>
+
+                <span class="badge">
+                    JavaScript
+                </span>
+
+            </div>
+
+
+            <div class="job-bottom">
+
+                <span class="salary">
+                    ₹5–10 LPA
+                </span>
+
+                <a
+                    href="jobs.html"
+                    class="view-btn">
+
+                    View Job
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+    <!-- =====================================================
+         FOOTER
+    ===================================================== -->
+
+    <footer>
+
+        © 2026 CampusConnect
+        • Student Placement & Internship Management System
+
+    </footer>
+
+
+</main>
+
+</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+
+/* =========================================================
+   GET USER NAME
+========================================================= */
+
+function getUserName(){
+
+    let name = "";
+
+    const savedUser =
+        localStorage.getItem("campusUser");
+
+    const email =
+        localStorage.getItem("campusEmail");
+
+
+    if(savedUser){
+
+        try{
+
+            const user =
+                JSON.parse(savedUser);
+
+            if(user && user.name){
+
+                name = user.name;
+
+            }
+
+        }
+        catch(error){
+
+            name = savedUser;
+
+        }
+
+    }
+
+
+    if(!name && email){
+
+        name =
+            email
+            .split("@")[0]
+            .replace(/[._-]/g," ");
+
+        name =
+            name
+            .split(" ")
+            .filter(word => word.length > 0)
+            .map(
+                word =>
+                    word.charAt(0).toUpperCase()
+                    + word.slice(1)
+            )
+            .join(" ");
+
+    }
+
+
+    if(!name){
+
+        name = "Student";
+
+    }
+
+
+    return name;
+
+}
+
+
+/* =========================================================
+   DISPLAY USER
+========================================================= */
+
+function displayUser(){
+
+    const name =
+        getUserName();
+
+
+    const mainName =
+        document.getElementById("userName");
+
+
+    const sideName =
+        document.getElementById("sideUserName");
+
+
+    const avatar =
+        document.getElementById("sideAvatar");
+
+
+    if(mainName){
+
+        mainName.textContent =
+            name;
+
+    }
+
+
+    if(sideName){
+
+        sideName.textContent =
+            name;
+
+    }
+
+
+    if(avatar){
+
+        avatar.textContent =
+            name
+            .charAt(0)
+            .toUpperCase();
+
+    }
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+function logoutUser(event){
+
+    if(event){
+
+        event.preventDefault();
+
+    }
+
+
+    localStorage.removeItem("campusUser");
+
+    localStorage.removeItem("campusEmail");
+
+    localStorage.removeItem("campusRole");
+
+
+    window.location.href =
+        "../login.html";
+
+}
+
+
+/* =========================================================
+   MOBILE SIDEBAR
+========================================================= */
+
+function toggleSidebar(){
+
+    const sidebar =
+        document.getElementById("sidebar");
+
+
+    if(sidebar){
+
+        sidebar.classList.toggle("show");
+
+    }
+
+}
+
+
+/* =========================================================
+   3D MOUSE PARALLAX
+========================================================= */
+
+document.addEventListener(
+    "mousemove",
+    function(event){
+
+        const x =
+            (event.clientX /
+            window.innerWidth) - 0.5;
+
+
+        const y =
+            (event.clientY /
+            window.innerHeight) - 0.5;
+
+
+        const grid =
+            document.querySelector(
+                ".grid-floor"
+            );
+
+
+        const core =
+            document.querySelector(
+                ".energy-core"
+            );
+
+
+        const ring1 =
+            document.querySelector(
+                ".ring1"
+            );
+
+
+        const ring2 =
+            document.querySelector(
+                ".ring2"
+            );
+
+
+        if(grid){
+
+            grid.style.marginLeft =
+                (x * 18) + "px";
+
+            grid.style.marginTop =
+                (y * 10) + "px";
+
+        }
+
+
+        if(core){
+
+            core.style.marginLeft =
+                (x * 30) + "px";
+
+            core.style.marginTop =
+                (y * 20) + "px";
+
+        }
+
+
+        if(ring1){
+
+            ring1.style.marginLeft =
+                (x * 20) + "px";
+
+            ring1.style.marginTop =
+                (y * 15) + "px";
+
+        }
+
+
+        if(ring2){
+
+            ring2.style.marginLeft =
+                (x * -25) + "px";
+
+            ring2.style.marginTop =
+                (y * -15) + "px";
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   CLOSE MOBILE SIDEBAR
+========================================================= */
+
+const mainArea =
+    document.querySelector(".main");
+
+
+if(mainArea){
+
+    mainArea.addEventListener(
+        "click",
+        function(){
+
+            if(window.innerWidth <= 800){
+
+                const sidebar =
+                    document.getElementById("sidebar");
+
+
+                if(sidebar){
+
+                    sidebar.classList.remove("show");
+
+                }
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+displayUser();
+
+</script>
+
+</body>
+</html>

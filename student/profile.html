@@ -1,0 +1,1864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Profile | CampusConnect</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:"Segoe UI",Arial,sans-serif;
+    min-height:100vh;
+    color:white;
+    overflow-x:hidden;
+
+    background:
+        radial-gradient(circle at 15% 20%,rgba(0,183,255,.35),transparent 30%),
+        radial-gradient(circle at 85% 20%,rgba(126,87,255,.35),transparent 30%),
+        radial-gradient(circle at 50% 90%,rgba(0,255,200,.18),transparent 35%),
+        linear-gradient(135deg,#020617,#071b3d 45%,#111044);
+}
+
+/* ================= 3D BACKGROUND ================= */
+
+.background{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    z-index:-10;
+    pointer-events:none;
+}
+
+.grid{
+    position:absolute;
+    width:200%;
+    height:100%;
+    left:-50%;
+    bottom:-25%;
+
+    transform:perspective(500px) rotateX(62deg);
+
+    background-image:
+        linear-gradient(rgba(0,200,255,.13) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(0,200,255,.13) 1px,transparent 1px);
+
+    background-size:55px 55px;
+
+    animation:gridMove 7s linear infinite;
+}
+
+@keyframes gridMove{
+    from{
+        transform:perspective(500px) rotateX(62deg) translateY(0);
+    }
+
+    to{
+        transform:perspective(500px) rotateX(62deg) translateY(55px);
+    }
+}
+
+.horizon{
+    position:absolute;
+    width:100%;
+    height:180px;
+    top:45%;
+
+    background:radial-gradient(
+        ellipse,
+        rgba(0,200,255,.25),
+        transparent 65%
+    );
+
+    filter:blur(20px);
+}
+
+.orb{
+    position:absolute;
+    border-radius:50%;
+
+    box-shadow:
+        inset -20px -20px 50px rgba(0,0,0,.35),
+        0 0 60px currentColor;
+
+    animation:floatOrb 8s ease-in-out infinite;
+}
+
+.orb1{
+    width:180px;
+    height:180px;
+
+    background:radial-gradient(
+        circle at 30% 25%,
+        #fff,
+        #38bdf8 15%,
+        #2563eb 50%,
+        #111827 80%
+    );
+
+    color:#38bdf8;
+
+    top:8%;
+    left:4%;
+}
+
+.orb2{
+    width:120px;
+    height:120px;
+
+    background:radial-gradient(
+        circle at 30% 25%,
+        #fff,
+        #a78bfa 15%,
+        #7c3aed 50%,
+        #111827 80%
+    );
+
+    color:#8b5cf6;
+
+    right:8%;
+    top:18%;
+
+    animation-delay:-3s;
+}
+
+.orb3{
+    width:80px;
+    height:80px;
+
+    background:radial-gradient(
+        circle at 30% 25%,
+        #fff,
+        #2dd4bf 15%,
+        #059669 50%,
+        #111827 80%
+    );
+
+    color:#10b981;
+
+    left:30%;
+    bottom:10%;
+
+    animation-delay:-5s;
+}
+
+@keyframes floatOrb{
+    0%,100%{
+        transform:translate3d(0,0,0);
+    }
+
+    50%{
+        transform:translate3d(25px,-35px,30px);
+    }
+}
+
+/* ================= PARTICLES ================= */
+
+.particle{
+    position:absolute;
+
+    width:4px;
+    height:4px;
+
+    background:#7dd3fc;
+
+    border-radius:50%;
+
+    box-shadow:0 0 12px #38bdf8;
+
+    animation:particleFloat linear infinite;
+}
+
+.particle:nth-child(1){left:8%;top:20%;animation-duration:7s;}
+.particle:nth-child(2){left:18%;top:70%;animation-duration:10s;}
+.particle:nth-child(3){left:28%;top:35%;animation-duration:8s;}
+.particle:nth-child(4){left:40%;top:80%;animation-duration:11s;}
+.particle:nth-child(5){left:52%;top:15%;animation-duration:9s;}
+.particle:nth-child(6){left:64%;top:65%;animation-duration:8s;}
+.particle:nth-child(7){left:76%;top:30%;animation-duration:12s;}
+.particle:nth-child(8){left:88%;top:75%;animation-duration:9s;}
+.particle:nth-child(9){left:95%;top:45%;animation-duration:7s;}
+.particle:nth-child(10){left:48%;top:48%;animation-duration:10s;}
+
+@keyframes particleFloat{
+    0%{
+        transform:translateY(50px);
+        opacity:0;
+    }
+
+    20%{
+        opacity:1;
+    }
+
+    80%{
+        opacity:1;
+    }
+
+    100%{
+        transform:translateY(-150px);
+        opacity:0;
+    }
+}
+
+/* ================= NAVBAR ================= */
+
+.topbar{
+    width:100%;
+
+    padding:18px 6%;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    background:rgba(2,6,23,.65);
+
+    backdrop-filter:blur(18px);
+
+    border-bottom:1px solid rgba(255,255,255,.12);
+
+    position:sticky;
+    top:0;
+
+    z-index:100;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    font-size:22px;
+    font-weight:800;
+}
+
+.logo-icon{
+    width:42px;
+    height:42px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    border-radius:14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #06b6d4,
+            #2563eb,
+            #7c3aed
+        );
+
+    box-shadow:
+        0 0 25px rgba(56,189,248,.4);
+}
+
+.logo span{
+    background:
+        linear-gradient(
+            90deg,
+            #67e8f9,
+            #60a5fa,
+            #c4b5fd
+        );
+
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
+
+/* ================= DASHBOARD BUTTON ================= */
+
+.back-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    text-decoration:none;
+
+    color:white;
+
+    padding:11px 20px;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,.08);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    transition:.3s;
+
+    cursor:pointer;
+}
+
+.back-btn:hover{
+    background:rgba(56,189,248,.18);
+
+    border-color:rgba(56,189,248,.5);
+
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 0 20px rgba(56,189,248,.2);
+}
+
+/* ================= MAIN ================= */
+
+.main{
+    width:min(1200px,92%);
+
+    margin:50px auto 80px;
+
+    display:grid;
+
+    grid-template-columns:.85fr 1.15fr;
+
+    gap:35px;
+
+    align-items:start;
+}
+
+/* ================= HERO ================= */
+
+.hero{
+    padding:45px 20px 20px;
+
+    position:sticky;
+    top:100px;
+}
+
+.brand-small{
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:8px 14px;
+
+    border-radius:30px;
+
+    background:rgba(56,189,248,.10);
+
+    border:1px solid rgba(56,189,248,.25);
+
+    color:#7dd3fc;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    margin-bottom:25px;
+}
+
+.rocket{
+    font-size:50px;
+
+    display:inline-block;
+
+    margin:25px 0;
+
+    animation:rocketFloat 3s ease-in-out infinite;
+}
+
+@keyframes rocketFloat{
+    0%,100%{
+        transform:translateY(0) rotate(-5deg);
+    }
+
+    50%{
+        transform:translateY(-12px) rotate(5deg);
+    }
+}
+
+.hero h1{
+    font-size:clamp(42px,5vw,68px);
+
+    line-height:1.05;
+
+    margin-bottom:20px;
+
+    background:
+        linear-gradient(
+            120deg,
+            #fff,
+            #67e8f9,
+            #60a5fa,
+            #c4b5fd
+        );
+
+    -webkit-background-clip:text;
+    background-clip:text;
+
+    color:transparent;
+}
+
+.hero h1 span{
+    display:block;
+}
+
+.hero p{
+    color:#cbd5e1;
+
+    font-size:17px;
+
+    line-height:1.8;
+
+    max-width:500px;
+}
+
+.benefits{
+    margin-top:35px;
+
+    display:grid;
+
+    gap:14px;
+}
+
+.benefit{
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    color:#dbeafe;
+
+    font-size:15px;
+}
+
+.check{
+    width:30px;
+    height:30px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #06b6d4,
+            #2563eb
+        );
+
+    box-shadow:
+        0 0 15px rgba(34,211,238,.35);
+}
+
+/* ================= PROFILE CARD ================= */
+
+.profile-card{
+    padding:35px;
+
+    border-radius:28px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.16),
+            rgba(255,255,255,.055)
+        );
+
+    backdrop-filter:blur(25px);
+
+    border:1px solid rgba(255,255,255,.18);
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.35),
+        inset 0 1px rgba(255,255,255,.18);
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.profile-card::before{
+    content:"";
+
+    position:absolute;
+
+    width:250px;
+    height:250px;
+
+    right:-100px;
+    top:-100px;
+
+    background:#38bdf8;
+
+    opacity:.12;
+
+    border-radius:50%;
+
+    filter:blur(40px);
+}
+
+.card-header{
+    position:relative;
+
+    margin-bottom:30px;
+}
+
+.card-header h2{
+    font-size:30px;
+
+    margin-bottom:8px;
+}
+
+.card-header p{
+    color:#94a3b8;
+}
+
+/* ================= STRENGTH ================= */
+
+.strength{
+    margin-bottom:30px;
+
+    padding:18px;
+
+    border-radius:16px;
+
+    background:rgba(15,23,42,.55);
+
+    border:1px solid rgba(255,255,255,.08);
+}
+
+.strength-top{
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-bottom:10px;
+}
+
+.strength-top span:first-child{
+    color:#cbd5e1;
+}
+
+#strengthText{
+    color:#67e8f9;
+
+    font-weight:700;
+}
+
+.progress{
+    width:100%;
+
+    height:8px;
+
+    background:rgba(255,255,255,.08);
+
+    border-radius:20px;
+
+    overflow:hidden;
+}
+
+#progressBar{
+    height:100%;
+
+    width:5%;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #06b6d4,
+            #2563eb,
+            #8b5cf6
+        );
+
+    box-shadow:
+        0 0 15px rgba(56,189,248,.7);
+
+    transition:.5s;
+}
+
+/* ================= FORM ================= */
+
+.section-title{
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin:28px 0 16px;
+
+    color:#67e8f9;
+
+    font-size:17px;
+
+    font-weight:700;
+}
+
+.section-title::after{
+    content:"";
+
+    height:1px;
+
+    flex:1;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(56,189,248,.35),
+            transparent
+        );
+}
+
+.form-grid{
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:17px;
+}
+
+.field{
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+}
+
+.field.full{
+    grid-column:1/-1;
+}
+
+label{
+    color:#cbd5e1;
+
+    font-size:13px;
+
+    font-weight:600;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+
+    padding:14px 15px;
+
+    color:white;
+
+    background:rgba(2,6,23,.55);
+
+    border:1px solid rgba(148,163,184,.20);
+
+    border-radius:12px;
+
+    outline:none;
+
+    font-size:14px;
+
+    transition:.3s;
+}
+
+input::placeholder,
+textarea::placeholder{
+    color:#64748b;
+}
+
+select option{
+    background:#0f172a;
+    color:white;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:#38bdf8;
+
+    box-shadow:
+        0 0 0 3px rgba(56,189,248,.10),
+        0 0 20px rgba(56,189,248,.12);
+
+    background:rgba(15,23,42,.75);
+}
+
+textarea{
+    min-height:100px;
+
+    resize:vertical;
+}
+
+/* ================= SKILLS ================= */
+
+.skills-box{
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:8px;
+
+    padding:10px;
+
+    border-radius:12px;
+
+    background:rgba(2,6,23,.55);
+
+    border:1px solid rgba(148,163,184,.20);
+}
+
+.skills-box input{
+    border:none;
+
+    box-shadow:none;
+
+    background:transparent;
+
+    flex:1;
+
+    min-width:140px;
+
+    padding:5px;
+}
+
+.skill-tag{
+    padding:7px 10px;
+
+    border-radius:20px;
+
+    background:rgba(37,99,235,.20);
+
+    border:1px solid rgba(96,165,250,.30);
+
+    color:#bfdbfe;
+
+    font-size:12px;
+}
+
+/* ================= RESUME ================= */
+
+.resume-box{
+    padding:18px;
+
+    border-radius:15px;
+
+    border:1px dashed rgba(96,165,250,.4);
+
+    background:rgba(37,99,235,.07);
+
+    text-align:center;
+}
+
+.resume-box input{
+    border:none;
+
+    background:transparent;
+
+    padding:8px;
+}
+
+/* ================= BUTTONS ================= */
+
+.buttons{
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:15px;
+
+    margin-top:30px;
+}
+
+button{
+    border:none;
+
+    cursor:pointer;
+
+    padding:15px;
+
+    border-radius:13px;
+
+    font-size:15px;
+
+    font-weight:700;
+
+    transition:.3s;
+}
+
+.save-btn{
+    color:white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #06b6d4,
+            #2563eb,
+            #7c3aed
+        );
+
+    box-shadow:
+        0 10px 30px rgba(37,99,235,.25);
+}
+
+.save-btn:hover{
+    transform:translateY(-3px);
+
+    box-shadow:
+        0 15px 40px rgba(37,99,235,.40);
+}
+
+.reset-btn{
+    color:#cbd5e1;
+
+    background:rgba(255,255,255,.07);
+
+    border:1px solid rgba(255,255,255,.14);
+}
+
+.reset-btn:hover{
+    background:rgba(255,255,255,.12);
+}
+
+/* ================= TOAST ================= */
+
+.toast{
+    position:fixed;
+
+    right:25px;
+    bottom:25px;
+
+    padding:15px 20px;
+
+    background:rgba(15,23,42,.90);
+
+    backdrop-filter:blur(15px);
+
+    border:1px solid rgba(56,189,248,.30);
+
+    border-radius:12px;
+
+    color:white;
+
+    transform:translateY(120px);
+
+    opacity:0;
+
+    transition:.4s;
+
+    z-index:999;
+}
+
+.toast.show{
+    transform:translateY(0);
+
+    opacity:1;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:900px){
+
+    .main{
+        grid-template-columns:1fr;
+    }
+
+    .hero{
+        position:relative;
+
+        top:auto;
+
+        text-align:center;
+
+        padding-top:20px;
+    }
+
+    .hero p{
+        margin:auto;
+    }
+
+    .benefits{
+        max-width:400px;
+
+        margin-left:auto;
+        margin-right:auto;
+
+        text-align:left;
+    }
+}
+
+@media(max-width:600px){
+
+    .topbar{
+        padding:15px 4%;
+    }
+
+    .logo{
+        font-size:18px;
+    }
+
+    .logo-icon{
+        width:36px;
+        height:36px;
+    }
+
+    .back-btn{
+        padding:9px 13px;
+
+        font-size:13px;
+    }
+
+    .main{
+        width:94%;
+
+        margin-top:25px;
+    }
+
+    .hero h1{
+        font-size:42px;
+    }
+
+    .profile-card{
+        padding:22px 17px;
+
+        border-radius:20px;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .field.full{
+        grid-column:auto;
+    }
+
+    .buttons{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= BACKGROUND ================= -->
+
+<div class="background">
+
+    <div class="grid"></div>
+
+    <div class="horizon"></div>
+
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+
+    <span class="particle"></span>
+    <span class="particle"></span>
+    <span class="particle"></span>
+    <span class="particle"></span>
+    <span class="particle"></span>
+    <span class="particle"></span>
+    <span class="particle"></span>
+    <span class="particle"></span>
+    <span class="particle"></span>
+    <span class="particle"></span>
+
+</div>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="topbar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            🎓
+        </div>
+
+        <span>
+            CampusConnect
+        </span>
+
+    </div>
+
+
+    <!--
+        IMPORTANT:
+        profile.html and dashboard.html
+        are in the SAME student folder.
+    -->
+
+    <a
+        href="dashboard.html"
+        class="back-btn"
+        id="dashboardButton"
+    >
+        ← Dashboard
+    </a>
+
+</header>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+    <!-- LEFT SIDE -->
+
+    <section class="hero">
+
+        <div class="brand-small">
+            ✨ Student Career Profile
+        </div>
+
+        <div class="rocket">
+            🚀
+        </div>
+
+        <h1>
+            Build Your
+            <span>Career Profile</span>
+        </h1>
+
+        <p>
+            Create a powerful student profile and showcase
+            your education, skills, achievements and career
+            goals to discover the right opportunities.
+        </p>
+
+        <div class="benefits">
+
+            <div class="benefit">
+                <div class="check">✓</div>
+                <span>Showcase your technical skills</span>
+            </div>
+
+            <div class="benefit">
+                <div class="check">✓</div>
+                <span>Highlight your education</span>
+            </div>
+
+            <div class="benefit">
+                <div class="check">✓</div>
+                <span>Track your career opportunities</span>
+            </div>
+
+            <div class="benefit">
+                <div class="check">✓</div>
+                <span>Prepare for internships and jobs</span>
+            </div>
+
+            <div class="benefit">
+                <div class="check">✓</div>
+                <span>Build your professional identity</span>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- PROFILE FORM -->
+
+    <section class="profile-card">
+
+        <div class="card-header">
+
+            <h2>
+                Student Profile
+            </h2>
+
+            <p>
+                Complete your profile to improve your
+                career opportunities.
+            </p>
+
+        </div>
+
+
+        <!-- PROFILE STRENGTH -->
+
+        <div class="strength">
+
+            <div class="strength-top">
+
+                <span>
+                    Profile Strength
+                </span>
+
+                <span id="strengthText">
+                    0%
+                </span>
+
+            </div>
+
+            <div class="progress">
+
+                <div id="progressBar"></div>
+
+            </div>
+
+        </div>
+
+
+        <form id="profileForm">
+
+            <!-- PERSONAL INFORMATION -->
+
+            <div class="section-title">
+                👤 Personal Information
+            </div>
+
+            <div class="form-grid">
+
+                <div class="field">
+
+                    <label>
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="fullName"
+                        placeholder="Enter your full name"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter your email"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Phone Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        placeholder="Enter phone number"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Date of Birth
+                    </label>
+
+                    <input
+                        type="date"
+                        id="dob"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Location
+                    </label>
+
+                    <input
+                        type="text"
+                        id="location"
+                        placeholder="City, State"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Gender
+                    </label>
+
+                    <select id="gender">
+
+                        <option value="">
+                            Select Gender
+                        </option>
+
+                        <option>Male</option>
+
+                        <option>Female</option>
+
+                        <option>Other</option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- EDUCATION -->
+
+            <div class="section-title">
+                🎓 Education
+            </div>
+
+            <div class="form-grid">
+
+                <div class="field">
+
+                    <label>
+                        College / University
+                    </label>
+
+                    <input
+                        type="text"
+                        id="college"
+                        placeholder="Enter college name"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Course
+                    </label>
+
+                    <input
+                        type="text"
+                        id="course"
+                        placeholder="Example: B.Tech CSE"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Specialization
+                    </label>
+
+                    <input
+                        type="text"
+                        id="specialization"
+                        placeholder="Example: Computer Science"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Graduation Year
+                    </label>
+
+                    <select id="graduationYear">
+
+                        <option value="">
+                            Select Year
+                        </option>
+
+                        <option>2027</option>
+                        <option>2028</option>
+                        <option>2029</option>
+                        <option>2030</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        CGPA / Percentage
+                    </label>
+
+                    <input
+                        type="text"
+                        id="cgpa"
+                        placeholder="Example: 8.5 CGPA"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Current Year
+                    </label>
+
+                    <select id="currentYear">
+
+                        <option value="">
+                            Select Year
+                        </option>
+
+                        <option>1st Year</option>
+                        <option>2nd Year</option>
+                        <option>3rd Year</option>
+                        <option>4th Year</option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- SKILLS -->
+
+            <div class="section-title">
+                💻 Technical Skills
+            </div>
+
+            <div class="field">
+
+                <label>
+                    Skills
+                </label>
+
+                <div class="skills-box">
+
+                    <span class="skill-tag">
+                        Java
+                    </span>
+
+                    <span class="skill-tag">
+                        Python
+                    </span>
+
+                    <span class="skill-tag">
+                        DSA
+                    </span>
+
+                    <input
+                        type="text"
+                        id="skills"
+                        placeholder="Add another skill..."
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- ABOUT -->
+
+            <div class="section-title">
+                🚀 About You
+            </div>
+
+            <div class="form-grid">
+
+                <div class="field full">
+
+                    <label>
+                        Career Objective
+                    </label>
+
+                    <textarea
+                        id="objective"
+                        placeholder="Write your career goals..."
+                    ></textarea>
+
+                </div>
+
+
+                <div class="field full">
+
+                    <label>
+                        Projects
+                    </label>
+
+                    <textarea
+                        id="projects"
+                        placeholder="Mention your projects..."
+                    ></textarea>
+
+                </div>
+
+            </div>
+
+
+            <!-- RESUME -->
+
+            <div class="section-title">
+                📄 Resume
+            </div>
+
+            <div class="resume-box">
+
+                <p style="color:#cbd5e1;margin-bottom:10px;">
+                    Upload your resume
+                </p>
+
+                <input
+                    type="file"
+                    id="resume"
+                    accept=".pdf,.doc,.docx"
+                >
+
+            </div>
+
+
+            <!-- BUTTONS -->
+
+            <div class="buttons">
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                >
+                    💾 Save Profile
+                </button>
+
+                <button
+                    type="button"
+                    class="reset-btn"
+                    onclick="resetProfile()"
+                >
+                    ↻ Reset
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+</main>
+
+
+<!-- TOAST -->
+
+<div
+    class="toast"
+    id="toast"
+>
+    Profile saved successfully!
+</div>
+
+
+<script>
+
+/* ==================================================
+   DASHBOARD NAVIGATION
+   ================================================== */
+
+document
+.getElementById("dashboardButton")
+.addEventListener("click", function(event){
+
+    event.preventDefault();
+
+    /*
+       Force a fresh navigation to dashboard.html.
+       Both profile.html and dashboard.html are inside
+       the student folder.
+    */
+
+    window.location.assign("./dashboard.html");
+
+});
+
+
+/* ==================================================
+   LOAD USER INFORMATION
+   ================================================== */
+
+const storedName =
+    localStorage.getItem("campusUser");
+
+const storedEmail =
+    localStorage.getItem("campusEmail");
+
+
+if(storedName){
+
+    document.getElementById("fullName").value =
+        storedName;
+
+}
+
+if(storedEmail){
+
+    document.getElementById("email").value =
+        storedEmail;
+
+}
+
+
+/* ==================================================
+   PROFILE FIELDS
+   ================================================== */
+
+const fields = [
+
+    "fullName",
+    "email",
+    "phone",
+    "dob",
+    "location",
+    "gender",
+    "college",
+    "course",
+    "specialization",
+    "graduationYear",
+    "cgpa",
+    "currentYear",
+    "objective",
+    "projects"
+
+];
+
+
+/* ==================================================
+   PROFILE STRENGTH
+   ================================================== */
+
+function updateStrength(){
+
+    let completed = 0;
+
+    fields.forEach(function(id){
+
+        const element =
+            document.getElementById(id);
+
+        if(
+            element &&
+            element.value.trim() !== ""
+        ){
+
+            completed++;
+
+        }
+
+    });
+
+
+    const percentage =
+        Math.round(
+            (completed / fields.length) * 100
+        );
+
+
+    document.getElementById(
+        "strengthText"
+    ).textContent =
+        percentage + "%";
+
+
+    document.getElementById(
+        "progressBar"
+    ).style.width =
+        Math.max(percentage,5) + "%";
+
+}
+
+
+fields.forEach(function(id){
+
+    const element =
+        document.getElementById(id);
+
+    if(element){
+
+        element.addEventListener(
+            "input",
+            updateStrength
+        );
+
+        element.addEventListener(
+            "change",
+            updateStrength
+        );
+
+    }
+
+});
+
+
+/* ==================================================
+   LOAD SAVED PROFILE
+   ================================================== */
+
+const savedProfile =
+    localStorage.getItem("campusProfile");
+
+
+if(savedProfile){
+
+    try{
+
+        const profile =
+            JSON.parse(savedProfile);
+
+
+        fields.forEach(function(id){
+
+            const element =
+                document.getElementById(id);
+
+
+            if(
+                element &&
+                profile[id] !== undefined
+            ){
+
+                element.value =
+                    profile[id];
+
+            }
+
+        });
+
+    }
+    catch(error){
+
+        console.log(
+            "Profile loading error:",
+            error
+        );
+
+    }
+
+}
+
+
+updateStrength();
+
+
+/* ==================================================
+   SAVE PROFILE
+   ================================================== */
+
+document
+.getElementById("profileForm")
+.addEventListener(
+    "submit",
+    function(event){
+
+        event.preventDefault();
+
+
+        const profile = {};
+
+
+        fields.forEach(function(id){
+
+            const element =
+                document.getElementById(id);
+
+            if(element){
+
+                profile[id] =
+                    element.value;
+
+            }
+
+        });
+
+
+        localStorage.setItem(
+            "campusProfile",
+            JSON.stringify(profile)
+        );
+
+
+        if(profile.fullName){
+
+            localStorage.setItem(
+                "campusUser",
+                profile.fullName
+            );
+
+        }
+
+
+        if(profile.email){
+
+            localStorage.setItem(
+                "campusEmail",
+                profile.email
+            );
+
+        }
+
+
+        showToast(
+            "✅ Profile saved successfully!"
+        );
+
+
+        updateStrength();
+
+    }
+);
+
+
+/* ==================================================
+   RESET PROFILE
+   ================================================== */
+
+function resetProfile(){
+
+    const answer =
+        confirm(
+            "Are you sure you want to reset your profile?"
+        );
+
+
+    if(!answer){
+
+        return;
+
+    }
+
+
+    document
+    .getElementById("profileForm")
+    .reset();
+
+
+    if(storedName){
+
+        document.getElementById(
+            "fullName"
+        ).value =
+            storedName;
+
+    }
+
+
+    if(storedEmail){
+
+        document.getElementById(
+            "email"
+        ).value =
+            storedEmail;
+
+    }
+
+
+    localStorage.removeItem(
+        "campusProfile"
+    );
+
+
+    updateStrength();
+
+
+    showToast(
+        "Profile has been reset."
+    );
+
+}
+
+
+/* ==================================================
+   TOAST
+   ================================================== */
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+
+    toast.textContent =
+        message;
+
+
+    toast.classList.add("show");
+
+
+    setTimeout(function(){
+
+        toast.classList.remove("show");
+
+    },3000);
+
+}
+
+
+/* ==================================================
+   3D MOUSE EFFECT
+   ================================================== */
+
+document.addEventListener(
+    "mousemove",
+    function(event){
+
+        const x =
+            (event.clientX /
+            window.innerWidth -
+            0.5) * 2;
+
+
+        const y =
+            (event.clientY /
+            window.innerHeight -
+            0.5) * 2;
+
+
+        const orb1 =
+            document.querySelector(".orb1");
+
+        const orb2 =
+            document.querySelector(".orb2");
+
+
+        if(orb1){
+
+            orb1.style.transform =
+                `translate(${x * 15}px,${y * 15}px)`;
+
+        }
+
+
+        if(orb2){
+
+            orb2.style.transform =
+                `translate(${x * -20}px,${y * -20}px)`;
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Jobs - CampusConnect</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    color:white;
+    background:
+    radial-gradient(circle at 15% 20%,rgba(0,255,170,.18),transparent 30%),
+    radial-gradient(circle at 90% 70%,rgba(255,145,40,.20),transparent 30%),
+    linear-gradient(135deg,#071813,#0b201b,#182012);
+    overflow-x:hidden;
+}
+
+body:before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:
+    linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);
+    background-size:45px 45px;
+    pointer-events:none;
+}
+
+.orb{
+    position:fixed;
+    border-radius:50%;
+    filter:blur(5px);
+    opacity:.35;
+    z-index:-1;
+    animation:float 9s infinite ease-in-out;
+}
+
+.orb1{
+    width:250px;
+    height:250px;
+    background:#00ffb3;
+    top:8%;
+    left:35%;
+}
+
+.orb2{
+    width:200px;
+    height:200px;
+    background:#ff8a30;
+    right:5%;
+    top:45%;
+    animation-delay:2s;
+}
+
+.orb3{
+    width:170px;
+    height:170px;
+    background:#74ff5b;
+    bottom:5%;
+    left:25%;
+    animation-delay:4s;
+}
+
+@keyframes float{
+    0%,100%{transform:translate(0,0)}
+    50%{transform:translate(30px,-35px)}
+}
+
+.layout{
+    display:flex;
+    min-height:100vh;
+}
+
+.sidebar{
+    width:260px;
+    position:fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    padding:28px 18px;
+    background:rgba(8,24,20,.80);
+    backdrop-filter:blur(22px);
+    border-right:1px solid rgba(255,255,255,.11);
+    box-shadow:10px 0 40px rgba(0,0,0,.35);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:40px;
+}
+
+.logo-icon{
+    width:50px;
+    height:50px;
+    border-radius:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+    background:linear-gradient(135deg,#00d9a0,#ff9638);
+    box-shadow:0 12px 30px rgba(0,255,160,.3);
+}
+
+.logo h2{
+    font-size:19px;
+}
+
+.logo span{
+    font-size:11px;
+    color:#8ca99c;
+}
+
+.menu-title{
+    font-size:10px;
+    letter-spacing:3px;
+    color:#668077;
+    margin:18px 10px 10px;
+}
+
+.menu{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.menu a{
+    text-decoration:none;
+    color:#c9d9d1;
+    padding:14px;
+    border-radius:15px;
+    display:flex;
+    gap:14px;
+    align-items:center;
+    transition:.3s;
+}
+
+.menu a:hover{
+    transform:translateX(5px);
+    background:rgba(0,255,170,.10);
+}
+
+.menu a.active{
+    color:white;
+    background:linear-gradient(135deg,rgba(0,215,155,.55),rgba(255,137,45,.45));
+    box-shadow:0 12px 30px rgba(0,220,160,.22);
+}
+
+.icon{
+    width:25px;
+    text-align:center;
+    font-size:18px;
+}
+
+.main{
+    margin-left:260px;
+    width:calc(100% - 260px);
+    padding:30px;
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.topbar h1{
+    font-size:29px;
+}
+
+.topbar p{
+    color:#8da79d;
+    margin-top:6px;
+}
+
+.user{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:9px 12px;
+    border-radius:17px;
+    background:rgba(255,255,255,.07);
+    backdrop-filter:blur(15px);
+}
+
+.user-info{
+    text-align:right;
+}
+
+.user-info small{
+    display:block;
+    color:#81978e;
+}
+
+.avatar{
+    width:43px;
+    height:43px;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,#00d9a0,#ff9638);
+    font-weight:bold;
+}
+
+.hero{
+    padding:32px;
+    border-radius:27px;
+    background:linear-gradient(135deg,rgba(0,210,150,.40),rgba(255,132,40,.32));
+    border:1px solid rgba(255,255,255,.15);
+    box-shadow:0 25px 60px rgba(0,0,0,.35);
+}
+
+.hero h2{
+    font-size:29px;
+    margin-bottom:10px;
+}
+
+.hero p{
+    color:#d6e5df;
+    max-width:750px;
+    line-height:1.6;
+}
+
+.tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:20px;
+}
+
+.tag{
+    padding:9px 15px;
+    border-radius:20px;
+    background:rgba(255,255,255,.10);
+    border:1px solid rgba(255,255,255,.12);
+    font-size:12px;
+}
+
+.search-area{
+    display:flex;
+    gap:12px;
+    margin:22px 0;
+}
+
+.search{
+    flex:1;
+    padding:16px 18px;
+    border:none;
+    outline:none;
+    border-radius:15px;
+    color:white;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.10);
+}
+
+.search::placeholder{
+    color:#82978f;
+}
+
+select{
+    padding:0 18px;
+    border:none;
+    outline:none;
+    border-radius:15px;
+    color:white;
+    background:#182d27;
+}
+
+.section{
+    display:flex;
+    justify-content:space-between;
+    margin:25px 0 17px;
+}
+
+.section h2{
+    font-size:21px;
+}
+
+.section span{
+    color:#84988f;
+    font-size:13px;
+}
+
+.jobs{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.job{
+    padding:23px;
+    border-radius:23px;
+    background:linear-gradient(145deg,rgba(255,255,255,.10),rgba(255,255,255,.04));
+    border:1px solid rgba(255,255,255,.11);
+    backdrop-filter:blur(18px);
+    box-shadow:0 22px 45px rgba(0,0,0,.28);
+    transition:.35s;
+    position:relative;
+    overflow:hidden;
+}
+
+.job:hover{
+    transform:translateY(-10px) rotateX(2deg);
+    box-shadow:0 35px 60px rgba(0,0,0,.4);
+}
+
+.job:before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:4px;
+    background:linear-gradient(90deg,#00e6a5,#ff9a3d);
+}
+
+.job-logo{
+    width:52px;
+    height:52px;
+    border-radius:16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:21px;
+    font-weight:bold;
+    background:linear-gradient(135deg,#00d9a0,#ff9638);
+    box-shadow:0 10px 25px rgba(0,220,150,.3);
+    margin-bottom:17px;
+}
+
+.job h3{
+    margin-bottom:7px;
+}
+
+.company{
+    color:#6dffca;
+    font-size:14px;
+    margin-bottom:15px;
+}
+
+.info{
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+    color:#aabdb5;
+    font-size:13px;
+}
+
+.skills{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+    margin:17px 0;
+}
+
+.skill{
+    padding:7px 9px;
+    border-radius:9px;
+    font-size:11px;
+    background:rgba(0,255,170,.09);
+    color:#7fffd3;
+}
+
+.salary{
+    font-weight:bold;
+    color:#ffb56c;
+    margin-bottom:15px;
+}
+
+.apply{
+    width:100%;
+    padding:12px;
+    border:0;
+    border-radius:12px;
+    cursor:pointer;
+    color:white;
+    font-weight:bold;
+    background:linear-gradient(135deg,#00c997,#ff8b32);
+    transition:.3s;
+}
+
+.apply:hover{
+    transform:translateY(-3px);
+    box-shadow:0 12px 25px rgba(0,220,150,.25);
+}
+
+.toast{
+    position:fixed;
+    right:25px;
+    bottom:25px;
+    padding:15px 20px;
+    border-radius:14px;
+    background:linear-gradient(135deg,#00c997,#ff8b32);
+    box-shadow:0 15px 35px rgba(0,0,0,.4);
+    transform:translateY(100px);
+    opacity:0;
+    transition:.4s;
+    z-index:100;
+}
+
+.toast.show{
+    transform:translateY(0);
+    opacity:1;
+}
+
+@media(max-width:1050px){
+    .jobs{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:700px){
+    .sidebar{
+        width:220px;
+    }
+
+    .main{
+        margin-left:220px;
+        width:calc(100% - 220px);
+        padding:20px;
+    }
+
+    .jobs{
+        grid-template-columns:1fr;
+    }
+
+    .search-area{
+        flex-direction:column;
+    }
+
+    select{
+        height:48px;
+    }
+}
+
+@media(max-width:550px){
+    .layout{
+        display:block;
+    }
+
+    .sidebar{
+        position:relative;
+        width:100%;
+    }
+
+    .main{
+        margin-left:0;
+        width:100%;
+    }
+
+    .user-info{
+        display:none;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<div class="layout">
+
+<aside class="sidebar">
+
+<div class="logo">
+    <div class="logo-icon">🎓</div>
+    <div>
+        <h2>CampusConnect</h2>
+        <span>Student Portal</span>
+    </div>
+</div>
+
+<div class="menu-title">MAIN MENU</div>
+
+<nav class="menu">
+
+<a href="dashboard.html">
+    <span class="icon">🏠</span>
+    Dashboard
+</a>
+
+<a href="profile.html">
+    <span class="icon">👤</span>
+    My Profile
+</a>
+
+<a href="jobs.html" class="active">
+    <span class="icon">💼</span>
+    Jobs
+</a>
+
+<a href="internships.html">
+    <span class="icon">🎓</span>
+    Internships
+</a>
+
+<!-- APPLICATIONS NOW OPENS REAL PAGE -->
+<a href="applications.html">
+    <span class="icon">📄</span>
+    Applications
+</a>
+
+</nav>
+
+<div class="menu-title">SUPPORT</div>
+
+<nav class="menu">
+
+<a href="#" onclick="message('Notifications will be available soon.')">
+    <span class="icon">🔔</span>
+    Notifications
+</a>
+
+<a href="#" onclick="message('Support will be available soon.')">
+    <span class="icon">💬</span>
+    Support
+</a>
+
+<a href="#" onclick="logout()">
+    <span class="icon">🚪</span>
+    Logout
+</a>
+
+</nav>
+
+</aside>
+
+
+<main class="main">
+
+<div class="topbar">
+
+<div>
+<h1>Job Opportunities</h1>
+<p>Discover your next career opportunity.</p>
+</div>
+
+<div class="user">
+
+<div class="user-info">
+<strong id="email">Student</strong>
+<small>CSE Student</small>
+</div>
+
+<div class="avatar" id="avatar">S</div>
+
+</div>
+
+</div>
+
+
+<section class="hero">
+
+<h2>🚀 Discover Your Next Career Opportunity</h2>
+
+<p>
+Search and explore software development, backend,
+frontend, Python, Java and other technology-related
+opportunities through CampusConnect.
+</p>
+
+<div class="tags">
+<div class="tag">💻 Software Development</div>
+<div class="tag">☕ Java Jobs</div>
+<div class="tag">🐍 Python Jobs</div>
+<div class="tag">🌐 Frontend Roles</div>
+<div class="tag">⚙️ Backend Roles</div>
+</div>
+
+</section>
+
+
+<div class="search-area">
+
+<input
+class="search"
+id="search"
+type="text"
+placeholder="🔍 Search by job title, company or skill..."
+onkeyup="filterJobs()"
+>
+
+<select id="location" onchange="filterJobs()">
+<option value="all">All Locations</option>
+<option value="Hyderabad">Hyderabad</option>
+<option value="Bengaluru">Bengaluru</option>
+<option value="Chennai">Chennai</option>
+<option value="Pune">Pune</option>
+</select>
+
+</div>
+
+
+<div class="section">
+
+<h2>Available Opportunities</h2>
+
+<span id="count">5 opportunities found</span>
+
+</div>
+
+
+<div class="jobs" id="jobs">
+
+
+<div class="job" data-location="Hyderabad">
+
+<div class="job-logo">M</div>
+
+<h3>Java Developer</h3>
+
+<div class="company">Microsoft</div>
+
+<div class="info">
+<span>📍 Hyderabad</span>
+<span>💼 0–2 years experience</span>
+<span>🏢 Software Engineering</span>
+</div>
+
+<div class="skills">
+<span class="skill">Java</span>
+<span class="skill">Spring</span>
+<span class="skill">SQL</span>
+</div>
+
+<div class="salary">₹8–15 LPA</div>
+
+<button class="apply"
+onclick="apply('Java Developer')">
+Apply Now
+</button>
+
+</div>
+
+
+<div class="job" data-location="Bengaluru">
+
+<div class="job-logo">G</div>
+
+<h3>Software Developer</h3>
+
+<div class="company">Google</div>
+
+<div class="info">
+<span>📍 Bengaluru</span>
+<span>💼 0–2 years experience</span>
+<span>🏢 Product Engineering</span>
+</div>
+
+<div class="skills">
+<span class="skill">Java</span>
+<span class="skill">Python</span>
+<span class="skill">DSA</span>
+</div>
+
+<div class="salary">₹10–18 LPA</div>
+
+<button class="apply"
+onclick="apply('Software Developer')">
+Apply Now
+</button>
+
+</div>
+
+
+<div class="job" data-location="Chennai">
+
+<div class="job-logo">A</div>
+
+<h3>Python Developer</h3>
+
+<div class="company">Amazon</div>
+
+<div class="info">
+<span>📍 Chennai</span>
+<span>💼 0–2 years experience</span>
+<span>🏢 Backend Development</span>
+</div>
+
+<div class="skills">
+<span class="skill">Python</span>
+<span class="skill">AWS</span>
+<span class="skill">SQL</span>
+</div>
+
+<div class="salary">₹7–14 LPA</div>
+
+<button class="apply"
+onclick="apply('Python Developer')">
+Apply Now
+</button>
+
+</div>
+
+
+<div class="job" data-location="Pune">
+
+<div class="job-logo">I</div>
+
+<h3>Frontend Developer</h3>
+
+<div class="company">Infosys</div>
+
+<div class="info">
+<span>📍 Pune</span>
+<span>💼 0–2 years experience</span>
+<span>🏢 Frontend Development</span>
+</div>
+
+<div class="skills">
+<span class="skill">HTML</span>
+<span class="skill">CSS</span>
+<span class="skill">JavaScript</span>
+</div>
+
+<div class="salary">₹5–10 LPA</div>
+
+<button class="apply"
+onclick="apply('Frontend Developer')">
+Apply Now
+</button>
+
+</div>
+
+
+<div class="job" data-location="Hyderabad">
+
+<div class="job-logo">T</div>
+
+<h3>Backend Developer</h3>
+
+<div class="company">TCS</div>
+
+<div class="info">
+<span>📍 Hyderabad</span>
+<span>💼 0–2 years experience</span>
+<span>🏢 Backend Development</span>
+</div>
+
+<div class="skills">
+<span class="skill">Java</span>
+<span class="skill">Spring Boot</span>
+<span class="skill">MySQL</span>
+</div>
+
+<div class="salary">₹5–9 LPA</div>
+
+<button class="apply"
+onclick="apply('Backend Developer')">
+Apply Now
+</button>
+
+</div>
+
+
+</div>
+
+</main>
+
+</div>
+
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+const email=localStorage.getItem("campusEmail");
+
+if(email){
+document.getElementById("email").textContent=email;
+document.getElementById("avatar").textContent=
+email.charAt(0).toUpperCase();
+}
+
+
+function filterJobs(){
+
+const search=
+document.getElementById("search").value.toLowerCase();
+
+const location=
+document.getElementById("location").value;
+
+const jobs=
+document.querySelectorAll(".job");
+
+let visible=0;
+
+jobs.forEach(job=>{
+
+const text=job.innerText.toLowerCase();
+
+const jobLocation=job.dataset.location;
+
+const matchSearch=text.includes(search);
+
+const matchLocation=
+location==="all" ||
+jobLocation===location;
+
+if(matchSearch && matchLocation){
+job.style.display="block";
+visible++;
+}else{
+job.style.display="none";
+}
+
+});
+
+document.getElementById("count").textContent=
+visible+" opportunities found";
+
+}
+
+
+function apply(job){
+
+showMessage(
+"Application started for "+job+"."
+);
+
+}
+
+
+function message(text){
+
+showMessage(text);
+
+}
+
+
+function showMessage(text){
+
+const toast=document.getElementById("toast");
+
+toast.textContent=text;
+
+toast.classList.add("show");
+
+setTimeout(()=>{
+toast.classList.remove("show");
+},2800);
+
+}
+
+
+function logout(){
+
+localStorage.removeItem("campusEmail");
+localStorage.removeItem("campusRole");
+localStorage.removeItem("campusUser");
+
+location.href="../login.html";
+
+}
+
+</script>
+
+</body>
+</html>

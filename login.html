@@ -1,0 +1,1670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CampusConnect | Login</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,body{
+    width:100%;
+    min-height:100%;
+    font-family:"Segoe UI",Arial,sans-serif;
+    overflow-x:hidden;
+}
+
+body{
+    background:#020617;
+    color:white;
+}
+
+/* =========================================================
+   MAIN 3D WORLD
+========================================================= */
+
+.login-world{
+    position:relative;
+    min-height:100vh;
+    width:100%;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at 15% 20%,rgba(0,229,255,.16),transparent 28%),
+        radial-gradient(circle at 85% 15%,rgba(91,33,182,.22),transparent 30%),
+        radial-gradient(circle at 70% 85%,rgba(16,185,129,.14),transparent 30%),
+        linear-gradient(135deg,#020617,#06152e 45%,#020617);
+}
+
+/* =========================================================
+   AURORA LIGHTS
+========================================================= */
+
+.aurora{
+    position:absolute;
+    width:900px;
+    height:350px;
+    left:50%;
+    top:35%;
+    transform:translate(-50%,-50%) rotate(-8deg);
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(0,255,255,.18),
+            rgba(59,130,246,.24),
+            rgba(168,85,247,.18),
+            transparent
+        );
+    filter:blur(55px);
+    opacity:.8;
+    animation:auroraMove 12s ease-in-out infinite alternate;
+    pointer-events:none;
+}
+
+@keyframes auroraMove{
+    0%{
+        transform:translate(-55%,-50%) rotate(-8deg) scale(1);
+    }
+    50%{
+        transform:translate(-45%,-42%) rotate(5deg) scale(1.15);
+    }
+    100%{
+        transform:translate(-50%,-55%) rotate(-3deg) scale(.95);
+    }
+}
+
+/* =========================================================
+   3D GRID FLOOR
+========================================================= */
+
+.grid-floor{
+    position:absolute;
+    width:160%;
+    height:65%;
+    left:-30%;
+    bottom:-28%;
+    transform:perspective(500px) rotateX(63deg);
+    transform-origin:center;
+    background-image:
+        linear-gradient(rgba(56,189,248,.14) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(56,189,248,.14) 1px,transparent 1px);
+    background-size:65px 65px;
+    mask-image:linear-gradient(
+        to top,
+        rgba(0,0,0,1),
+        rgba(0,0,0,.7),
+        transparent
+    );
+    -webkit-mask-image:linear-gradient(
+        to top,
+        rgba(0,0,0,1),
+        rgba(0,0,0,.7),
+        transparent
+    );
+    animation:gridMove 10s linear infinite;
+    pointer-events:none;
+}
+
+@keyframes gridMove{
+    from{
+        background-position:0 0;
+    }
+    to{
+        background-position:0 65px;
+    }
+}
+
+/* =========================================================
+   GLOWING HORIZON
+========================================================= */
+
+.horizon{
+    position:absolute;
+    width:100%;
+    height:180px;
+    bottom:20%;
+    left:0;
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(34,211,238,.22),
+            rgba(59,130,246,.08) 35%,
+            transparent 70%
+        );
+    filter:blur(15px);
+    pointer-events:none;
+}
+
+/* =========================================================
+   3D FLOATING ORBS
+========================================================= */
+
+.orb{
+    position:absolute;
+    border-radius:50%;
+    pointer-events:none;
+    transform-style:preserve-3d;
+}
+
+.orb1{
+    width:300px;
+    height:300px;
+    left:-90px;
+    top:15%;
+    background:
+        radial-gradient(
+            circle at 30% 25%,
+            rgba(255,255,255,.65),
+            rgba(56,189,248,.4) 12%,
+            rgba(37,99,235,.18) 45%,
+            transparent 72%
+        );
+    filter:blur(2px);
+    box-shadow:
+        0 0 70px rgba(56,189,248,.3),
+        inset -30px -30px 70px rgba(37,99,235,.3);
+    animation:orbFloat1 9s ease-in-out infinite;
+}
+
+.orb2{
+    width:240px;
+    height:240px;
+    right:-60px;
+    top:18%;
+    background:
+        radial-gradient(
+            circle at 32% 25%,
+            rgba(255,255,255,.55),
+            rgba(167,139,250,.38) 13%,
+            rgba(124,58,237,.16) 48%,
+            transparent 73%
+        );
+    box-shadow:
+        0 0 80px rgba(139,92,246,.25),
+        inset -25px -25px 60px rgba(76,29,149,.35);
+    animation:orbFloat2 11s ease-in-out infinite;
+}
+
+.orb3{
+    width:190px;
+    height:190px;
+    left:18%;
+    bottom:-60px;
+    background:
+        radial-gradient(
+            circle at 30% 25%,
+            rgba(255,255,255,.4),
+            rgba(45,212,191,.3) 15%,
+            rgba(5,150,105,.13) 50%,
+            transparent 72%
+        );
+    box-shadow:0 0 70px rgba(45,212,191,.22);
+    animation:orbFloat3 8s ease-in-out infinite;
+}
+
+@keyframes orbFloat1{
+    0%,100%{
+        transform:translate3d(0,0,0) rotate(0deg);
+    }
+    50%{
+        transform:translate3d(60px,50px,60px) rotate(30deg);
+    }
+}
+
+@keyframes orbFloat2{
+    0%,100%{
+        transform:translate3d(0,0,0);
+    }
+    50%{
+        transform:translate3d(-50px,70px,50px) scale(1.08);
+    }
+}
+
+@keyframes orbFloat3{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-70px) translateX(50px);
+    }
+}
+
+/* =========================================================
+   FLOATING 3D CUBES
+========================================================= */
+
+.cube{
+    position:absolute;
+    width:55px;
+    height:55px;
+    transform-style:preserve-3d;
+    animation:cubeRotate 14s linear infinite;
+    opacity:.55;
+    pointer-events:none;
+}
+
+.cube span{
+    position:absolute;
+    width:55px;
+    height:55px;
+    border:1px solid rgba(125,211,252,.55);
+    background:rgba(14,116,144,.08);
+    box-shadow:
+        inset 0 0 25px rgba(56,189,248,.08),
+        0 0 20px rgba(56,189,248,.12);
+}
+
+.cube .front{
+    transform:translateZ(27px);
+}
+
+.cube .back{
+    transform:rotateY(180deg) translateZ(27px);
+}
+
+.cube .right{
+    transform:rotateY(90deg) translateZ(27px);
+}
+
+.cube .left{
+    transform:rotateY(-90deg) translateZ(27px);
+}
+
+.cube .top{
+    transform:rotateX(90deg) translateZ(27px);
+}
+
+.cube .bottom{
+    transform:rotateX(-90deg) translateZ(27px);
+}
+
+.cube1{
+    left:10%;
+    top:24%;
+    animation-duration:17s;
+}
+
+.cube2{
+    right:12%;
+    top:58%;
+    width:80px;
+    height:80px;
+    animation-duration:21s;
+    animation-direction:reverse;
+}
+
+.cube2 span{
+    width:80px;
+    height:80px;
+}
+
+.cube2 .front,
+.cube2 .back{
+    transform:translateZ(40px);
+}
+
+.cube2 .back{
+    transform:rotateY(180deg) translateZ(40px);
+}
+
+.cube2 .right{
+    transform:rotateY(90deg) translateZ(40px);
+}
+
+.cube2 .left{
+    transform:rotateY(-90deg) translateZ(40px);
+}
+
+.cube2 .top{
+    transform:rotateX(90deg) translateZ(40px);
+}
+
+.cube2 .bottom{
+    transform:rotateX(-90deg) translateZ(40px);
+}
+
+.cube3{
+    left:74%;
+    top:30%;
+    width:35px;
+    height:35px;
+    animation-duration:11s;
+}
+
+.cube3 span{
+    width:35px;
+    height:35px;
+}
+
+.cube3 .front,
+.cube3 .back{
+    transform:translateZ(17px);
+}
+
+.cube3 .back{
+    transform:rotateY(180deg) translateZ(17px);
+}
+
+.cube3 .right{
+    transform:rotateY(90deg) translateZ(17px);
+}
+
+.cube3 .left{
+    transform:rotateY(-90deg) translateZ(17px);
+}
+
+.cube3 .top{
+    transform:rotateX(90deg) translateZ(17px);
+}
+
+.cube3 .bottom{
+    transform:rotateX(-90deg) translateZ(17px);
+}
+
+@keyframes cubeRotate{
+    from{
+        transform:rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+    }
+    to{
+        transform:rotateX(360deg) rotateY(360deg) rotateZ(180deg);
+    }
+}
+
+/* =========================================================
+   PARTICLES
+========================================================= */
+
+.particles{
+    position:absolute;
+    inset:0;
+    overflow:hidden;
+    pointer-events:none;
+}
+
+.particle{
+    position:absolute;
+    width:4px;
+    height:4px;
+    border-radius:50%;
+    background:#67e8f9;
+    box-shadow:
+        0 0 8px #67e8f9,
+        0 0 20px rgba(34,211,238,.8);
+    animation:particleFloat linear infinite;
+}
+
+.particle:nth-child(1){left:8%;top:20%;animation-duration:8s;animation-delay:-2s;}
+.particle:nth-child(2){left:16%;top:72%;animation-duration:11s;animation-delay:-5s;}
+.particle:nth-child(3){left:23%;top:38%;animation-duration:9s;animation-delay:-3s;}
+.particle:nth-child(4){left:31%;top:14%;animation-duration:12s;animation-delay:-8s;}
+.particle:nth-child(5){left:40%;top:78%;animation-duration:10s;animation-delay:-4s;}
+.particle:nth-child(6){left:48%;top:24%;animation-duration:7s;animation-delay:-1s;}
+.particle:nth-child(7){left:57%;top:67%;animation-duration:13s;animation-delay:-6s;}
+.particle:nth-child(8){left:64%;top:12%;animation-duration:9s;animation-delay:-4s;}
+.particle:nth-child(9){left:71%;top:42%;animation-duration:11s;animation-delay:-7s;}
+.particle:nth-child(10){left:80%;top:74%;animation-duration:8s;animation-delay:-2s;}
+.particle:nth-child(11){left:88%;top:27%;animation-duration:12s;animation-delay:-9s;}
+.particle:nth-child(12){left:94%;top:62%;animation-duration:10s;animation-delay:-5s;}
+.particle:nth-child(13){left:12%;top:50%;animation-duration:14s;animation-delay:-4s;}
+.particle:nth-child(14){left:53%;top:52%;animation-duration:9s;animation-delay:-6s;}
+.particle:nth-child(15){left:84%;top:15%;animation-duration:13s;animation-delay:-3s;}
+
+@keyframes particleFloat{
+    0%{
+        transform:translateY(30px) scale(.6);
+        opacity:0;
+    }
+    20%{
+        opacity:1;
+    }
+    50%{
+        transform:translateY(-50px) translateX(20px) scale(1);
+        opacity:.8;
+    }
+    100%{
+        transform:translateY(-130px) translateX(-20px) scale(.3);
+        opacity:0;
+    }
+}
+
+/* =========================================================
+   LIGHT STREAKS
+========================================================= */
+
+.streak{
+    position:absolute;
+    width:260px;
+    height:2px;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(103,232,249,.7),
+        transparent
+    );
+    filter:blur(1px);
+    transform:rotate(-25deg);
+    animation:streakMove 7s linear infinite;
+    pointer-events:none;
+}
+
+.streak1{
+    left:-300px;
+    top:30%;
+}
+
+.streak2{
+    left:-400px;
+    top:65%;
+    animation-delay:3s;
+}
+
+@keyframes streakMove{
+    0%{
+        transform:translateX(0) rotate(-25deg);
+        opacity:0;
+    }
+    20%{
+        opacity:1;
+    }
+    70%{
+        opacity:1;
+    }
+    100%{
+        transform:translateX(1500px) rotate(-25deg);
+        opacity:0;
+    }
+}
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.navbar{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    padding:24px 5%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    z-index:20;
+}
+
+.logo-area{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo{
+    width:50px;
+    height:50px;
+    border-radius:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:25px;
+    background:
+        linear-gradient(
+            135deg,
+            #22d3ee,
+            #3b82f6,
+            #8b5cf6
+        );
+    box-shadow:
+        0 10px 35px rgba(34,211,238,.25),
+        inset 0 1px 1px rgba(255,255,255,.4);
+}
+
+.brand{
+    font-size:20px;
+    font-weight:800;
+    letter-spacing:.2px;
+}
+
+.brand span{
+    display:block;
+    font-size:11px;
+    color:#67e8f9;
+    font-weight:500;
+    margin-top:2px;
+}
+
+.home-link{
+    color:#dbeafe;
+    text-decoration:none;
+    padding:12px 18px;
+    border-radius:12px;
+    background:rgba(15,23,42,.35);
+    border:1px solid rgba(148,163,184,.16);
+    backdrop-filter:blur(15px);
+    transition:.3s;
+}
+
+.home-link:hover{
+    background:rgba(56,189,248,.12);
+    border-color:rgba(103,232,249,.4);
+    transform:translateY(-2px);
+}
+
+/* =========================================================
+   LOGIN AREA
+========================================================= */
+
+.main-content{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:110px 20px 50px;
+    z-index:10;
+}
+
+/* =========================================================
+   GLASS CARD
+========================================================= */
+
+.login-card{
+    position:relative;
+    width:440px;
+    max-width:100%;
+    padding:38px;
+    border-radius:28px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.13),
+            rgba(255,255,255,.045)
+        );
+
+    border:1px solid rgba(255,255,255,.18);
+
+    box-shadow:
+        0 35px 100px rgba(0,0,0,.55),
+        0 0 70px rgba(34,211,238,.08),
+        inset 0 1px 0 rgba(255,255,255,.18);
+
+    backdrop-filter:blur(30px);
+    -webkit-backdrop-filter:blur(30px);
+
+    transform-style:preserve-3d;
+    transition:transform .15s ease;
+}
+
+.login-card::before{
+    content:"";
+    position:absolute;
+    inset:-1px;
+    border-radius:28px;
+    padding:1px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(103,232,249,.55),
+            transparent 30%,
+            transparent 65%,
+            rgba(139,92,246,.5)
+        );
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite:xor;
+    mask-composite:exclude;
+    pointer-events:none;
+}
+
+.login-card::after{
+    content:"";
+    position:absolute;
+    width:150px;
+    height:150px;
+    top:-70px;
+    right:-60px;
+    background:rgba(34,211,238,.14);
+    filter:blur(40px);
+    border-radius:50%;
+    pointer-events:none;
+}
+
+/* =========================================================
+   LOGIN ICON
+========================================================= */
+
+.login-icon{
+    width:72px;
+    height:72px;
+    margin:0 auto 18px;
+    border-radius:22px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:34px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(34,211,238,.95),
+            rgba(59,130,246,.85),
+            rgba(139,92,246,.9)
+        );
+
+    box-shadow:
+        0 15px 40px rgba(34,211,238,.25),
+        inset 0 1px 2px rgba(255,255,255,.45);
+
+    animation:iconFloat 4s ease-in-out infinite;
+}
+
+@keyframes iconFloat{
+    0%,100%{
+        transform:translateY(0) rotate(0deg);
+    }
+    50%{
+        transform:translateY(-6px) rotate(2deg);
+    }
+}
+
+.title{
+    text-align:center;
+    font-size:31px;
+    font-weight:800;
+    margin-bottom:7px;
+    background:
+        linear-gradient(
+            90deg,
+            #fff,
+            #a5f3fc,
+            #c4b5fd,
+            #fff
+        );
+    background-size:250% auto;
+    -webkit-background-clip:text;
+    color:transparent;
+    animation:titleShine 5s linear infinite;
+}
+
+@keyframes titleShine{
+    to{
+        background-position:250% center;
+    }
+}
+
+.subtitle{
+    text-align:center;
+    color:#b8c7dc;
+    font-size:14px;
+    margin-bottom:28px;
+}
+
+/* =========================================================
+   ROLE SELECTOR
+========================================================= */
+
+.label{
+    display:block;
+    font-size:13px;
+    font-weight:600;
+    color:#dbeafe;
+    margin-bottom:9px;
+}
+
+.roles{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:9px;
+    margin-bottom:21px;
+}
+
+.role{
+    cursor:pointer;
+}
+
+.role input{
+    display:none;
+}
+
+.role-box{
+    height:70px;
+    border-radius:14px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+
+    background:rgba(15,23,42,.42);
+    border:1px solid rgba(148,163,184,.13);
+
+    transition:.3s;
+}
+
+.role-icon{
+    font-size:19px;
+}
+
+.role-name{
+    font-size:11px;
+    color:#cbd5e1;
+}
+
+.role input:checked + .role-box{
+    background:
+        linear-gradient(
+            135deg,
+            rgba(34,211,238,.18),
+            rgba(59,130,246,.2)
+        );
+    border-color:rgba(103,232,249,.65);
+    box-shadow:
+        0 0 25px rgba(34,211,238,.13),
+        inset 0 0 20px rgba(34,211,238,.05);
+    transform:translateY(-2px);
+}
+
+.role input:checked + .role-box .role-name{
+    color:white;
+    font-weight:700;
+}
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+.input-group{
+    margin-bottom:18px;
+}
+
+.input-wrapper{
+    position:relative;
+}
+
+.input-icon{
+    position:absolute;
+    left:15px;
+    top:50%;
+    transform:translateY(-50%);
+    font-size:15px;
+    opacity:.65;
+    z-index:2;
+}
+
+input[type="email"],
+input[type="password"]{
+    width:100%;
+    height:52px;
+    padding:0 44px;
+    border-radius:14px;
+    border:1px solid rgba(148,163,184,.18);
+    outline:none;
+
+    color:white;
+    background:rgba(2,6,23,.42);
+
+    font-size:14px;
+
+    transition:.3s;
+}
+
+input[type="email"]::placeholder,
+input[type="password"]::placeholder{
+    color:#64748b;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus{
+    border-color:#22d3ee;
+    background:rgba(2,6,23,.6);
+    box-shadow:
+        0 0 0 3px rgba(34,211,238,.08),
+        0 0 25px rgba(34,211,238,.08);
+}
+
+.password-toggle{
+    position:absolute;
+    right:14px;
+    top:50%;
+    transform:translateY(-50%);
+    cursor:pointer;
+    color:#94a3b8;
+    font-size:16px;
+    user-select:none;
+}
+
+/* =========================================================
+   OPTIONS
+========================================================= */
+
+.options{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:-3px 0 20px;
+}
+
+.remember{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    color:#94a3b8;
+    font-size:12px;
+}
+
+.remember input{
+    accent-color:#22d3ee;
+}
+
+.forgot{
+    color:#67e8f9;
+    font-size:12px;
+    text-decoration:none;
+}
+
+.forgot:hover{
+    text-decoration:underline;
+}
+
+/* =========================================================
+   LOGIN BUTTON
+========================================================= */
+
+.login-button{
+    width:100%;
+    height:54px;
+    border:none;
+    border-radius:15px;
+    cursor:pointer;
+
+    color:white;
+    font-size:15px;
+    font-weight:800;
+
+    background:
+        linear-gradient(
+            100deg,
+            #06b6d4,
+            #2563eb,
+            #7c3aed,
+            #06b6d4
+        );
+
+    background-size:250% auto;
+
+    box-shadow:
+        0 15px 35px rgba(37,99,235,.25),
+        inset 0 1px 1px rgba(255,255,255,.35);
+
+    transition:.3s;
+    animation:buttonGradient 5s linear infinite;
+}
+
+@keyframes buttonGradient{
+    to{
+        background-position:250% center;
+    }
+}
+
+.login-button:hover{
+    transform:translateY(-3px);
+    box-shadow:
+        0 20px 45px rgba(37,99,235,.38),
+        0 0 25px rgba(34,211,238,.15);
+}
+
+.login-button:active{
+    transform:translateY(0);
+}
+
+/* =========================================================
+   DIVIDER
+========================================================= */
+
+.divider{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin:23px 0;
+    color:#64748b;
+    font-size:11px;
+}
+
+.divider::before,
+.divider::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(148,163,184,.2),
+        transparent
+    );
+}
+
+/* =========================================================
+   GOOGLE BUTTON
+========================================================= */
+
+.google-button{
+    width:100%;
+    height:48px;
+    border-radius:13px;
+    border:1px solid rgba(148,163,184,.16);
+    background:rgba(15,23,42,.35);
+    color:#e2e8f0;
+    cursor:pointer;
+    font-size:13px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.google-button:hover{
+    background:rgba(255,255,255,.07);
+    border-color:rgba(255,255,255,.25);
+    transform:translateY(-2px);
+}
+
+/* =========================================================
+   REGISTER
+========================================================= */
+
+.register-text{
+    text-align:center;
+    margin-top:24px;
+    color:#94a3b8;
+    font-size:13px;
+}
+
+.register-text a{
+    color:#67e8f9;
+    text-decoration:none;
+    font-weight:700;
+}
+
+.register-text a:hover{
+    text-decoration:underline;
+}
+
+/* =========================================================
+   SECURITY TEXT
+========================================================= */
+
+.security{
+    text-align:center;
+    margin-top:20px;
+    color:#64748b;
+    font-size:10px;
+    letter-spacing:.2px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:600px){
+
+    .navbar{
+        padding:18px 20px;
+    }
+
+    .brand{
+        font-size:17px;
+    }
+
+    .logo{
+        width:43px;
+        height:43px;
+        border-radius:13px;
+    }
+
+    .home-link{
+        padding:9px 12px;
+        font-size:12px;
+    }
+
+    .main-content{
+        padding:95px 15px 35px;
+    }
+
+    .login-card{
+        padding:28px 21px;
+        border-radius:23px;
+    }
+
+    .title{
+        font-size:27px;
+    }
+
+    .subtitle{
+        font-size:12px;
+    }
+
+    .orb1{
+        width:190px;
+        height:190px;
+    }
+
+    .orb2{
+        width:150px;
+        height:150px;
+    }
+
+    .cube2{
+        display:none;
+    }
+
+    .grid-floor{
+        bottom:-15%;
+    }
+}
+
+@media(max-width:380px){
+
+    .roles{
+        gap:5px;
+    }
+
+    .role-box{
+        height:62px;
+    }
+
+    .login-card{
+        padding:24px 17px;
+    }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media(prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+        transition:none !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="login-world" id="world">
+
+    <!-- AURORA -->
+    <div class="aurora"></div>
+
+    <!-- 3D GRID -->
+    <div class="grid-floor"></div>
+    <div class="horizon"></div>
+
+    <!-- 3D ORBS -->
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+
+    <!-- 3D CUBES -->
+    <div class="cube cube1">
+        <span class="front"></span>
+        <span class="back"></span>
+        <span class="right"></span>
+        <span class="left"></span>
+        <span class="top"></span>
+        <span class="bottom"></span>
+    </div>
+
+    <div class="cube cube2">
+        <span class="front"></span>
+        <span class="back"></span>
+        <span class="right"></span>
+        <span class="left"></span>
+        <span class="top"></span>
+        <span class="bottom"></span>
+    </div>
+
+    <div class="cube cube3">
+        <span class="front"></span>
+        <span class="back"></span>
+        <span class="right"></span>
+        <span class="left"></span>
+        <span class="top"></span>
+        <span class="bottom"></span>
+    </div>
+
+    <!-- PARTICLES -->
+    <div class="particles">
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+    </div>
+
+    <!-- LIGHT STREAKS -->
+    <div class="streak streak1"></div>
+    <div class="streak streak2"></div>
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <nav class="navbar">
+
+        <a href="index.html" style="text-decoration:none;color:white;">
+            <div class="logo-area">
+
+                <div class="logo">
+                    🎓
+                </div>
+
+                <div class="brand">
+                    CampusConnect
+                    <span>Student Career Portal</span>
+                </div>
+
+            </div>
+        </a>
+
+        <a href="index.html" class="home-link">
+            ← Back to Home
+        </a>
+
+    </nav>
+
+
+    <!-- =====================================================
+         LOGIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+        <div class="login-card" id="loginCard">
+
+            <div class="login-icon">
+                🔐
+            </div>
+
+            <h1 class="title">
+                Welcome Back
+            </h1>
+
+            <p class="subtitle">
+                Login to continue your CampusConnect journey
+            </p>
+
+
+            <!-- ROLE -->
+
+            <label class="label">
+                Select your role
+            </label>
+
+            <div class="roles">
+
+                <label class="role">
+                    <input
+                        type="radio"
+                        name="role"
+                        value="student"
+                        checked
+                    >
+
+                    <div class="role-box">
+                        <div class="role-icon">🎓</div>
+                        <div class="role-name">Student</div>
+                    </div>
+                </label>
+
+
+                <label class="role">
+
+                    <input
+                        type="radio"
+                        name="role"
+                        value="company"
+                    >
+
+                    <div class="role-box">
+                        <div class="role-icon">💼</div>
+                        <div class="role-name">Company</div>
+                    </div>
+
+                </label>
+
+
+                <label class="role">
+
+                    <input
+                        type="radio"
+                        name="role"
+                        value="admin"
+                    >
+
+                    <div class="role-box">
+                        <div class="role-icon">⚙️</div>
+                        <div class="role-name">Admin</div>
+                    </div>
+
+                </label>
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="input-group">
+
+                <label class="label">
+                    Email Address
+                </label>
+
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        ✉️
+                    </span>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter your email"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="input-group">
+
+                <label class="label">
+                    Password
+                </label>
+
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        🔒
+                    </span>
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                    <span
+                        class="password-toggle"
+                        id="passwordToggle"
+                    >
+                        👁
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- OPTIONS -->
+
+            <div class="options">
+
+                <label class="remember">
+
+                    <input
+                        type="checkbox"
+                        id="remember"
+                    >
+
+                    Remember me
+
+                </label>
+
+                <a
+                    href="#"
+                    class="forgot"
+                    id="forgotPassword"
+                >
+                    Forgot password?
+                </a>
+
+            </div>
+
+
+            <!-- LOGIN -->
+
+            <button
+                class="login-button"
+                id="loginButton"
+            >
+                🚀 Login to CampusConnect
+            </button>
+
+
+            <!-- DIVIDER -->
+
+            <div class="divider">
+                OR
+            </div>
+
+
+            <!-- GOOGLE -->
+
+            <button
+                class="google-button"
+                id="googleButton"
+            >
+                🌐 Continue with Google
+            </button>
+
+
+            <!-- REGISTER -->
+
+            <p class="register-text">
+
+                Don't have an account?
+
+                <a href="register.html">
+                    Create Account
+                </a>
+
+            </p>
+
+
+            <div class="security">
+                🔒 Your information is protected with secure login
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   PASSWORD SHOW / HIDE
+========================================================= */
+
+const password =
+    document.getElementById("password");
+
+const passwordToggle =
+    document.getElementById("passwordToggle");
+
+passwordToggle.addEventListener("click",function(){
+
+    if(password.type === "password"){
+
+        password.type = "text";
+        passwordToggle.textContent = "🙈";
+
+    }else{
+
+        password.type = "password";
+        passwordToggle.textContent = "👁";
+
+    }
+
+});
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+const loginButton =
+    document.getElementById("loginButton");
+
+loginButton.addEventListener("click",function(){
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    const pass =
+        document.getElementById("password").value.trim();
+
+    const role =
+        document.querySelector(
+            'input[name="role"]:checked'
+        ).value;
+
+    if(email === "" || pass === ""){
+
+        alert(
+            "Please enter your email and password."
+        );
+
+        return;
+    }
+
+
+    /* SAVE FRONTEND LOGIN */
+
+    localStorage.setItem(
+        "campusEmail",
+        email
+    );
+
+    localStorage.setItem(
+        "campusRole",
+        role
+    );
+
+
+    /* REMEMBER ME */
+
+    const remember =
+        document.getElementById("remember").checked;
+
+    if(remember){
+
+        localStorage.setItem(
+            "campusRemember",
+            "true"
+        );
+
+    }else{
+
+        localStorage.removeItem(
+            "campusRemember"
+        );
+
+    }
+
+
+    /* STUDENT */
+
+    if(role === "student"){
+
+        loginButton.textContent =
+            "✓ Login Successful...";
+
+        setTimeout(function(){
+
+            window.location.href =
+                "student/dashboard.html";
+
+        },700);
+
+    }
+
+    /* COMPANY */
+
+    else if(role === "company"){
+
+        alert(
+            "Company login is ready for backend integration."
+        );
+
+    }
+
+    /* ADMIN */
+
+    else if(role === "admin"){
+
+        alert(
+            "Admin login is ready for backend integration."
+        );
+
+    }
+
+});
+
+
+/* =========================================================
+   GOOGLE DEMO
+========================================================= */
+
+document
+.getElementById("googleButton")
+.addEventListener("click",function(){
+
+    alert(
+        "Google login will be connected when the backend is added."
+    );
+
+});
+
+
+/* =========================================================
+   FORGOT PASSWORD
+========================================================= */
+
+document
+.getElementById("forgotPassword")
+.addEventListener("click",function(event){
+
+    event.preventDefault();
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    if(email === ""){
+
+        alert(
+            "Please enter your email address first."
+        );
+
+    }else{
+
+        alert(
+            "Password reset demo: a reset link would be sent to " +
+            email
+        );
+
+    }
+
+});
+
+
+/* =========================================================
+   3D MOUSE EFFECT
+========================================================= */
+
+const card =
+    document.getElementById("loginCard");
+
+const world =
+    document.getElementById("world");
+
+world.addEventListener("mousemove",function(event){
+
+    if(window.innerWidth < 700){
+        return;
+    }
+
+    const x =
+        (window.innerWidth / 2 - event.clientX) / 35;
+
+    const y =
+        (window.innerHeight / 2 - event.clientY) / 35;
+
+    card.style.transform =
+        "perspective(1200px) rotateY(" +
+        x +
+        "deg) rotateX(" +
+        (-y) +
+        "deg) translateZ(8px)";
+
+});
+
+
+world.addEventListener("mouseleave",function(){
+
+    card.style.transform =
+        "perspective(1200px) rotateY(0deg) rotateX(0deg) translateZ(0)";
+
+});
+
+
+/* =========================================================
+   LOAD SAVED EMAIL
+========================================================= */
+
+window.addEventListener("DOMContentLoaded",function(){
+
+    const savedEmail =
+        localStorage.getItem("campusEmail");
+
+    if(savedEmail){
+
+        document.getElementById("email").value =
+            savedEmail;
+
+    }
+
+});
+
+
+/* =========================================================
+   ENTER KEY LOGIN
+========================================================= */
+
+document
+.getElementById("password")
+.addEventListener("keydown",function(event){
+
+    if(event.key === "Enter"){
+
+        loginButton.click();
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>

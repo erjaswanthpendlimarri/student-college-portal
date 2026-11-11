@@ -1,0 +1,1998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CampusConnect | Student Career Portal</title>
+
+    <style>
+
+        /* =========================================================
+           RESET
+        ========================================================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #050816;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+
+        /* =========================================================
+           MAIN BACKGROUND
+        ========================================================= */
+
+        .page {
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 50% 45%,
+                    rgba(0, 174, 255, 0.18),
+                    transparent 20%),
+                radial-gradient(circle at 15% 20%,
+                    rgba(117, 67, 255, 0.15),
+                    transparent 25%),
+                radial-gradient(circle at 85% 75%,
+                    rgba(0, 255, 200, 0.10),
+                    transparent 25%),
+                #050816;
+        }
+
+
+        /* =========================================================
+           ANIMATED GRID
+        ========================================================= */
+
+        .grid {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.16;
+
+            background-image:
+                linear-gradient(rgba(0, 180, 255, 0.15) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 180, 255, 0.15) 1px, transparent 1px);
+
+            background-size: 55px 55px;
+
+            transform:
+                perspective(500px)
+                rotateX(60deg)
+                scale(1.8);
+
+            transform-origin: center bottom;
+
+            animation: gridMove 10s linear infinite;
+        }
+
+        @keyframes gridMove {
+
+            0% {
+                transform:
+                    perspective(500px)
+                    rotateX(60deg)
+                    translateY(0)
+                    scale(1.8);
+            }
+
+            100% {
+                transform:
+                    perspective(500px)
+                    rotateX(60deg)
+                    translateY(55px)
+                    scale(1.8);
+            }
+        }
+
+
+        /* =========================================================
+           GLOWING ORBS
+        ========================================================= */
+
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(2px);
+            pointer-events: none;
+            opacity: 0.45;
+        }
+
+        .orb.one {
+            width: 300px;
+            height: 300px;
+            background: #006eff;
+            left: -120px;
+            top: 100px;
+            box-shadow: 0 0 100px #006eff;
+            animation: orbOne 9s ease-in-out infinite alternate;
+        }
+
+        .orb.two {
+            width: 260px;
+            height: 260px;
+            background: #00ffd5;
+            right: -100px;
+            top: 250px;
+            box-shadow: 0 0 100px #00ffd5;
+            animation: orbTwo 11s ease-in-out infinite alternate;
+        }
+
+        .orb.three {
+            width: 220px;
+            height: 220px;
+            background: #8b35ff;
+            left: 40%;
+            bottom: -120px;
+            box-shadow: 0 0 100px #8b35ff;
+            animation: orbThree 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes orbOne {
+            from {
+                transform: translate(0, 0);
+            }
+
+            to {
+                transform: translate(120px, 100px);
+            }
+        }
+
+        @keyframes orbTwo {
+            from {
+                transform: translate(0, 0);
+            }
+
+            to {
+                transform: translate(-130px, -80px);
+            }
+        }
+
+        @keyframes orbThree {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(-130px);
+            }
+        }
+
+
+        /* =========================================================
+           ARROW FLOW AREA
+        ========================================================= */
+
+        .arrow-field {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .arrow {
+            position: absolute;
+
+            width: 80px;
+            height: 3px;
+
+            background: linear-gradient(
+                90deg,
+                transparent,
+                #00d9ff,
+                #ffffff
+            );
+
+            border-radius: 50px;
+
+            box-shadow:
+                0 0 8px #00d9ff,
+                0 0 18px #00d9ff,
+                0 0 35px rgba(0, 217, 255, 0.8);
+
+            opacity: 0;
+
+            animation: flyToCenter linear infinite;
+        }
+
+        .arrow::after {
+            content: "";
+
+            position: absolute;
+
+            right: -2px;
+            top: -5px;
+
+            width: 12px;
+            height: 12px;
+
+            border-top: 3px solid #ffffff;
+            border-right: 3px solid #ffffff;
+
+            transform: rotate(45deg);
+        }
+
+        @keyframes flyToCenter {
+
+            0% {
+                transform:
+                    translate(var(--startX), var(--startY))
+                    rotate(var(--angle))
+                    scale(0.4);
+
+                opacity: 0;
+            }
+
+            15% {
+                opacity: 0.9;
+            }
+
+            75% {
+                opacity: 1;
+            }
+
+            100% {
+                transform:
+                    translate(
+                        calc(var(--startX) * 0.08),
+                        calc(var(--startY) * 0.08)
+                    )
+                    rotate(var(--angle))
+                    scale(1.15);
+
+                opacity: 0;
+            }
+        }
+
+
+        /* =========================================================
+           CENTER ENERGY CORE
+        ========================================================= */
+
+        .energy-core {
+            position: fixed;
+
+            left: 50%;
+            top: 48%;
+
+            width: 180px;
+            height: 180px;
+
+            transform: translate(-50%, -50%);
+
+            border-radius: 50%;
+
+            pointer-events: none;
+
+            z-index: 1;
+        }
+
+        .energy-core::before,
+        .energy-core::after {
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            border-radius: 50%;
+
+            border: 1px solid rgba(0, 210, 255, 0.5);
+
+            animation: corePulse 3s ease-out infinite;
+        }
+
+        .energy-core::after {
+            animation-delay: 1.5s;
+        }
+
+        @keyframes corePulse {
+
+            0% {
+                transform: scale(0.4);
+                opacity: 0;
+            }
+
+            30% {
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+
+
+        /* =========================================================
+           NAVBAR
+        ========================================================= */
+
+        header {
+            position: relative;
+            z-index: 20;
+
+            width: 100%;
+            padding: 22px 6%;
+        }
+
+        .navbar {
+            max-width: 1250px;
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 13px 18px;
+
+            border: 1px solid rgba(255,255,255,0.12);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255,255,255,0.10),
+                    rgba(255,255,255,0.03)
+                );
+
+            backdrop-filter: blur(18px);
+
+            border-radius: 22px;
+
+            box-shadow:
+                0 20px 50px rgba(0,0,0,0.35),
+                inset 0 1px rgba(255,255,255,0.12);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo {
+            width: 46px;
+            height: 46px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 14px;
+
+            font-size: 23px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #00d9ff,
+                    #4361ee,
+                    #8a2be2
+                );
+
+            box-shadow:
+                0 0 20px rgba(0,210,255,0.5),
+                inset 0 1px rgba(255,255,255,0.5);
+
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+
+            0%,100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-5px) rotate(3deg);
+            }
+        }
+
+        .brand-text strong {
+            display: block;
+            font-size: 18px;
+        }
+
+        .brand-text span {
+            color: #7ddcff;
+            font-size: 11px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links a {
+            padding: 11px 16px;
+
+            border-radius: 12px;
+
+            color: #cbd5e1;
+
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+
+            background: rgba(0,210,255,0.12);
+
+            box-shadow:
+                0 0 20px rgba(0,210,255,0.15);
+        }
+
+        .nav-login {
+            border: 1px solid rgba(0,220,255,0.4);
+            color: #6ee7ff !important;
+        }
+
+        .nav-register {
+            background:
+                linear-gradient(
+                    135deg,
+                    #00bfff,
+                    #5865f2
+                );
+
+            color: white !important;
+
+            box-shadow:
+                0 8px 25px rgba(0,180,255,0.25);
+        }
+
+
+        /* =========================================================
+           HERO
+        ========================================================= */
+
+        .hero {
+            position: relative;
+            z-index: 10;
+
+            max-width: 1250px;
+            min-height: 650px;
+
+            margin: auto;
+
+            padding: 80px 30px 100px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 50px;
+        }
+
+        .hero-content {
+            width: 58%;
+        }
+
+        .small-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 9px 15px;
+
+            border-radius: 50px;
+
+            border: 1px solid rgba(0,220,255,0.25);
+
+            background: rgba(0,220,255,0.08);
+
+            color: #78eaff;
+
+            font-size: 13px;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 0 25px rgba(0,220,255,0.08);
+        }
+
+        .small-badge .dot {
+            width: 8px;
+            height: 8px;
+
+            border-radius: 50%;
+
+            background: #00ffbb;
+
+            box-shadow: 0 0 12px #00ffbb;
+
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+
+            0%,100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+
+        /* =========================================================
+           JASWANTH ANIMATION
+        ========================================================= */
+
+        .jaswanth {
+            position: relative;
+
+            display: inline-block;
+
+            font-size: clamp(52px, 8vw, 100px);
+
+            font-weight: 900;
+
+            letter-spacing: 5px;
+
+            line-height: 1;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #ffffff,
+                    #62eaff,
+                    #7b61ff,
+                    #00ffd5,
+                    #ffffff
+                );
+
+            background-size: 300% auto;
+
+            -webkit-background-clip: text;
+            background-clip: text;
+
+            color: transparent;
+
+            animation:
+                nameFlow 5s linear infinite,
+                nameFloat 4s ease-in-out infinite;
+
+            text-shadow:
+                0 0 30px rgba(0,220,255,0.25);
+        }
+
+        @keyframes nameFlow {
+
+            0% {
+                background-position: 0% center;
+            }
+
+            100% {
+                background-position: 300% center;
+            }
+        }
+
+        @keyframes nameFloat {
+
+            0%,100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-7px);
+            }
+        }
+
+        .jaswanth::after {
+            content: "JASWANTH";
+
+            position: absolute;
+
+            left: 0;
+            top: 7px;
+
+            z-index: -1;
+
+            color: #00d9ff;
+
+            filter: blur(25px);
+
+            opacity: 0.25;
+        }
+
+
+        .hero h1 {
+            font-size: clamp(38px, 5vw, 68px);
+
+            line-height: 1.05;
+
+            margin: 15px 0;
+
+            letter-spacing: -2px;
+        }
+
+        .hero h1 span {
+            color: #6ee7ff;
+        }
+
+        .hero-description {
+            max-width: 680px;
+
+            color: #aebbd0;
+
+            font-size: 17px;
+
+            line-height: 1.8;
+
+            margin: 25px 0 35px;
+        }
+
+
+        /* =========================================================
+           HERO BUTTONS
+        ========================================================= */
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            position: relative;
+
+            padding: 15px 25px;
+
+            border-radius: 14px;
+
+            font-weight: 700;
+
+            border: none;
+
+            cursor: pointer;
+
+            transition: 0.35s;
+
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background:
+                linear-gradient(
+                    135deg,
+                    #00c6ff,
+                    #536dfe,
+                    #8b3dff
+                );
+
+            color: white;
+
+            box-shadow:
+                0 10px 35px rgba(0,170,255,0.28);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px) scale(1.03);
+
+            box-shadow:
+                0 15px 45px rgba(0,200,255,0.45);
+        }
+
+        .btn-secondary {
+            border: 1px solid rgba(255,255,255,0.16);
+
+            background: rgba(255,255,255,0.06);
+
+            color: white;
+
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-5px);
+
+            background: rgba(255,255,255,0.12);
+
+            border-color: rgba(0,220,255,0.4);
+        }
+
+
+        /* =========================================================
+           HERO 3D CARD
+        ========================================================= */
+
+        .hero-visual {
+            width: 40%;
+
+            display: flex;
+
+            justify-content: center;
+        }
+
+        .portal-card {
+            position: relative;
+
+            width: 340px;
+            min-height: 390px;
+
+            padding: 30px;
+
+            border-radius: 30px;
+
+            border: 1px solid rgba(255,255,255,0.15);
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,0.12),
+                    rgba(255,255,255,0.03)
+                );
+
+            backdrop-filter: blur(20px);
+
+            box-shadow:
+                0 35px 80px rgba(0,0,0,0.45),
+                inset 0 1px rgba(255,255,255,0.18);
+
+            transform:
+                perspective(1000px)
+                rotateY(-12deg)
+                rotateX(5deg);
+
+            animation: cardFloat 5s ease-in-out infinite;
+        }
+
+        @keyframes cardFloat {
+
+            0%,100% {
+                transform:
+                    perspective(1000px)
+                    rotateY(-12deg)
+                    rotateX(5deg)
+                    translateY(0);
+            }
+
+            50% {
+                transform:
+                    perspective(1000px)
+                    rotateY(-7deg)
+                    rotateX(8deg)
+                    translateY(-15px);
+            }
+        }
+
+        .portal-card::before {
+            content: "";
+
+            position: absolute;
+
+            width: 150px;
+            height: 150px;
+
+            border-radius: 50%;
+
+            top: -50px;
+            right: -40px;
+
+            background: #00d9ff;
+
+            filter: blur(70px);
+
+            opacity: 0.3;
+        }
+
+        .portal-icon {
+            width: 80px;
+            height: 80px;
+
+            display: grid;
+            place-items: center;
+
+            font-size: 40px;
+
+            border-radius: 22px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #00d9ff,
+                    #4267ff,
+                    #923cff
+                );
+
+            box-shadow:
+                0 15px 35px rgba(0,190,255,0.3);
+
+            margin-bottom: 25px;
+        }
+
+        .portal-card h3 {
+            font-size: 25px;
+            margin-bottom: 10px;
+        }
+
+        .portal-card p {
+            color: #aebbd0;
+            line-height: 1.7;
+        }
+
+        .mini-stat {
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            margin-top: 25px;
+
+            padding: 14px;
+
+            border-radius: 15px;
+
+            background: rgba(0,0,0,0.2);
+
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .mini-icon {
+            width: 40px;
+            height: 40px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 12px;
+
+            background: rgba(0,220,255,0.12);
+        }
+
+        .mini-stat strong {
+            display: block;
+            font-size: 17px;
+        }
+
+        .mini-stat span {
+            color: #91a4ba;
+            font-size: 12px;
+        }
+
+
+        /* =========================================================
+           FEATURES
+        ========================================================= */
+
+        .features {
+            position: relative;
+            z-index: 10;
+
+            max-width: 1200px;
+
+            margin: 0 auto;
+
+            padding: 50px 25px 100px;
+        }
+
+        .section-title {
+            text-align: center;
+
+            margin-bottom: 45px;
+        }
+
+        .section-title span {
+            color: #62eaff;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .section-title h2 {
+            font-size: 38px;
+            margin-top: 10px;
+        }
+
+        .feature-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 20px;
+        }
+
+        .feature-card {
+            position: relative;
+
+            padding: 30px;
+
+            border-radius: 22px;
+
+            border: 1px solid rgba(255,255,255,0.10);
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,0.09),
+                    rgba(255,255,255,0.025)
+                );
+
+            backdrop-filter: blur(15px);
+
+            transition: 0.4s;
+
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: "";
+
+            position: absolute;
+
+            width: 120px;
+            height: 120px;
+
+            background: #00d9ff;
+
+            filter: blur(65px);
+
+            opacity: 0;
+
+            right: -40px;
+            top: -40px;
+
+            transition: 0.4s;
+        }
+
+        .feature-card:hover {
+            transform:
+                translateY(-10px)
+                rotateX(3deg);
+
+            border-color:
+                rgba(0,220,255,0.35);
+
+            box-shadow:
+                0 25px 50px rgba(0,0,0,0.35),
+                0 0 30px rgba(0,190,255,0.08);
+        }
+
+        .feature-card:hover::before {
+            opacity: 0.25;
+        }
+
+        .feature-icon {
+            width: 55px;
+            height: 55px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 16px;
+
+            font-size: 25px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(0,220,255,0.25),
+                    rgba(90,70,255,0.25)
+                );
+
+            border: 1px solid rgba(255,255,255,0.12);
+
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            color: #96a7bc;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+
+        /* =========================================================
+           STATS
+        ========================================================= */
+
+        .stats {
+            position: relative;
+            z-index: 10;
+
+            max-width: 1100px;
+
+            margin: 0 auto;
+
+            padding: 30px 25px 100px;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 15px;
+        }
+
+        .stat {
+            text-align: center;
+
+            padding: 25px 15px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(255,255,255,0.05);
+
+            border:
+                1px solid rgba(255,255,255,0.08);
+
+            backdrop-filter: blur(12px);
+
+            transition: 0.3s;
+        }
+
+        .stat:hover {
+            transform: translateY(-6px);
+
+            border-color:
+                rgba(0,220,255,0.3);
+        }
+
+        .stat strong {
+            display: block;
+
+            font-size: 32px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #00d9ff,
+                    #8b5cf6
+                );
+
+            -webkit-background-clip: text;
+            background-clip: text;
+
+            color: transparent;
+        }
+
+        .stat span {
+            color: #8fa2b8;
+            font-size: 13px;
+        }
+
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        footer {
+            position: relative;
+            z-index: 10;
+
+            border-top:
+                1px solid rgba(255,255,255,0.08);
+
+            padding: 30px 20px;
+
+            text-align: center;
+
+            color: #718096;
+        }
+
+        footer strong {
+            color: #7deaff;
+        }
+
+
+        /* =========================================================
+           SCROLL REVEAL
+        ========================================================= */
+
+        .reveal {
+            opacity: 0;
+
+            transform: translateY(35px);
+
+            transition:
+                opacity 0.8s ease,
+                transform 0.8s ease;
+        }
+
+        .reveal.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 900px) {
+
+            .nav-links a:not(.nav-login):not(.nav-register) {
+                display: none;
+            }
+
+            .hero {
+                flex-direction: column;
+
+                text-align: center;
+
+                padding-top: 50px;
+            }
+
+            .hero-content {
+                width: 100%;
+            }
+
+            .hero-description {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-visual {
+                width: 100%;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 12px;
+            }
+
+            .navbar {
+                border-radius: 17px;
+            }
+
+            .brand-text strong {
+                font-size: 15px;
+            }
+
+            .brand-logo {
+                width: 40px;
+                height: 40px;
+            }
+
+            .nav-links {
+                gap: 4px;
+            }
+
+            .nav-links a {
+                padding: 9px 10px;
+                font-size: 12px;
+            }
+
+            .hero {
+                padding:
+                    55px 18px
+                    80px;
+            }
+
+            .jaswanth {
+                font-size: 52px;
+                letter-spacing: 2px;
+            }
+
+            .hero h1 {
+                font-size: 38px;
+            }
+
+            .hero-description {
+                font-size: 15px;
+            }
+
+            .portal-card {
+                width: 100%;
+                max-width: 340px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .stat strong {
+                font-size: 25px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+<div class="page">
+
+    <!-- BACKGROUND -->
+    <div class="grid"></div>
+
+    <div class="orb one"></div>
+    <div class="orb two"></div>
+    <div class="orb three"></div>
+
+    <!-- ARROWS FLOWING TO CENTER -->
+    <div class="arrow-field" id="arrowField"></div>
+
+    <!-- CENTER ENERGY -->
+    <div class="energy-core"></div>
+
+
+    <!-- =========================================================
+         NAVBAR
+    ========================================================== -->
+
+    <header>
+
+        <nav class="navbar">
+
+            <a href="index.html" class="brand">
+
+                <div class="brand-logo">
+                    🎓
+                </div>
+
+                <div class="brand-text">
+
+                    <strong>
+                        CampusConnect
+                    </strong>
+
+                    <span>
+                        Student Career Portal
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <div class="nav-links">
+
+                <a href="#features">
+                    Features
+                </a>
+
+                <a href="#about">
+                    About
+                </a>
+
+                <a
+                    href="login.html"
+                    class="nav-login"
+                >
+                    Login
+                </a>
+
+                <a
+                    href="register.html"
+                    class="nav-register"
+                >
+                    Register
+                </a>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+
+    <!-- =========================================================
+         HERO
+    ========================================================== -->
+
+    <main>
+
+        <section class="hero">
+
+            <div class="hero-content">
+
+                <div class="small-badge">
+
+                    <span class="dot"></span>
+
+                    Your Career. Your Future. Your Journey.
+
+                </div>
+
+
+                <!-- JASWANTH -->
+                <div class="jaswanth">
+                    JASWANTH
+                </div>
+
+
+                <h1>
+
+                    Connect.
+                    <span>Learn.</span>
+                    Grow.
+
+                </h1>
+
+
+                <p class="hero-description">
+
+                    Welcome to <strong>CampusConnect</strong> —
+                    a smart student placement and internship
+                    management platform designed to connect
+                    students with career opportunities,
+                    internships and companies.
+
+                </p>
+
+
+                <div class="hero-buttons">
+
+                    <a
+                        href="login.html"
+                        class="btn btn-primary"
+                    >
+                        🚀 Explore Opportunities
+                    </a>
+
+                    <a
+                        href="register.html"
+                        class="btn btn-secondary"
+                    >
+                        🎓 Create Student Profile
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 3D PORTAL CARD
+            ================================================== -->
+
+            <div class="hero-visual">
+
+                <div class="portal-card">
+
+                    <div class="portal-icon">
+                        🚀
+                    </div>
+
+                    <h3>
+                        Your Career Starts Here
+                    </h3>
+
+                    <p>
+                        Discover jobs, internships and
+                        opportunities from leading companies
+                        through one powerful student portal.
+                    </p>
+
+
+                    <div class="mini-stat">
+
+                        <div class="mini-icon">
+                            💼
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Career Opportunities
+                            </strong>
+
+                            <span>
+                                Jobs & Internships
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="mini-stat">
+
+                        <div class="mini-icon">
+                            🎯
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Smart Matching
+                            </strong>
+
+                            <span>
+                                Find opportunities for your skills
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="mini-stat">
+
+                        <div class="mini-icon">
+                            📈
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Build Your Future
+                            </strong>
+
+                            <span>
+                                Learn • Apply • Grow
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             FEATURES
+        ====================================================== -->
+
+        <section
+            class="features reveal"
+            id="features"
+        >
+
+            <div class="section-title">
+
+                <span>
+                    Everything You Need
+                </span>
+
+                <h2>
+                    One Platform. Many Opportunities.
+                </h2>
+
+            </div>
+
+
+            <div class="feature-grid">
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        💼
+                    </div>
+
+                    <h3>
+                        Job Opportunities
+                    </h3>
+
+                    <p>
+                        Explore software development,
+                        Java, Python, frontend, backend
+                        and other technology jobs.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        🎓
+                    </div>
+
+                    <h3>
+                        Internships
+                    </h3>
+
+                    <p>
+                        Find internships that help you
+                        gain practical experience and
+                        build your professional career.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        👤
+                    </div>
+
+                    <h3>
+                        Student Profile
+                    </h3>
+
+                    <p>
+                        Build your professional profile,
+                        showcase your skills and manage
+                        your career information.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        📋
+                    </div>
+
+                    <h3>
+                        Application Tracking
+                    </h3>
+
+                    <p>
+                        Keep track of your applications
+                        and monitor your career progress
+                        from one place.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        🤖
+                    </div>
+
+                    <h3>
+                        CampusBot
+                    </h3>
+
+                    <p>
+                        Get quick assistance and guidance
+                        while exploring the CampusConnect
+                        platform.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        🔔
+                    </div>
+
+                    <h3>
+                        Notifications
+                    </h3>
+
+                    <p>
+                        Stay updated with new jobs,
+                        internships, application updates
+                        and important announcements.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             STATS
+        ====================================================== -->
+
+        <section
+            class="stats reveal"
+            id="about"
+        >
+
+            <div class="stat">
+
+                <strong>
+                    120+
+                </strong>
+
+                <span>
+                    Opportunities
+                </span>
+
+            </div>
+
+
+            <div class="stat">
+
+                <strong>
+                    50+
+                </strong>
+
+                <span>
+                    Companies
+                </span>
+
+            </div>
+
+
+            <div class="stat">
+
+                <strong>
+                    500+
+                </strong>
+
+                <span>
+                    Students
+                </span>
+
+            </div>
+
+
+            <div class="stat">
+
+                <strong>
+                    24/7
+                </strong>
+
+                <span>
+                    Career Access
+                </span>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================== -->
+
+    <footer>
+
+        © 2026
+        <strong>
+            CampusConnect
+        </strong>
+
+        — Student Placement & Internship Management System
+
+        <br>
+
+        <span>
+            Designed for students to connect, learn and grow.
+        </span>
+
+    </footer>
+
+</div>
+
+
+<script>
+
+    /* =========================================================
+       CREATE FLOWING ARROWS
+       Arrows start around screen and move toward center.
+    ========================================================== */
+
+    const arrowField =
+        document.getElementById("arrowField");
+
+    function createArrow() {
+
+        const arrow =
+            document.createElement("div");
+
+        arrow.className = "arrow";
+
+
+        /*
+            Random starting position
+            around the screen.
+        */
+
+        const side =
+            Math.floor(Math.random() * 4);
+
+
+        let x;
+        let y;
+        let angle;
+
+
+        if (side === 0) {
+
+            // LEFT
+
+            x = -100;
+            y = Math.random() * window.innerHeight;
+
+            angle = 0;
+
+        }
+
+        else if (side === 1) {
+
+            // RIGHT
+
+            x = window.innerWidth + 100;
+            y = Math.random() * window.innerHeight;
+
+            angle = 180;
+
+        }
+
+        else if (side === 2) {
+
+            // TOP
+
+            x = Math.random() * window.innerWidth;
+            y = -100;
+
+            angle = 90;
+
+        }
+
+        else {
+
+            // BOTTOM
+
+            x = Math.random() * window.innerWidth;
+            y = window.innerHeight + 100;
+
+            angle = -90;
+
+        }
+
+
+        /*
+            Calculate movement toward
+            the center of the screen.
+        */
+
+        const centerX =
+            window.innerWidth / 2;
+
+        const centerY =
+            window.innerHeight * 0.48;
+
+
+        const dx =
+            centerX - x;
+
+        const dy =
+            centerY - y;
+
+
+        const calculatedAngle =
+            Math.atan2(dy, dx) * 180 / Math.PI;
+
+
+        arrow.style.setProperty(
+            "--startX",
+            x + "px"
+        );
+
+        arrow.style.setProperty(
+            "--startY",
+            y + "px"
+        );
+
+        arrow.style.setProperty(
+            "--angle",
+            calculatedAngle + "deg"
+        );
+
+
+        /*
+            Different speeds
+            make the animation look natural.
+        */
+
+        const duration =
+            3 + Math.random() * 4;
+
+        arrow.style.animationDuration =
+            duration + "s";
+
+
+        arrow.style.animationDelay =
+            Math.random() * 2 + "s";
+
+
+        /*
+            Different sizes.
+        */
+
+        const scale =
+            0.5 + Math.random() * 1;
+
+        arrow.style.width =
+            (50 + Math.random() * 70) + "px";
+
+
+        arrow.style.transform =
+            "scale(" + scale + ")";
+
+
+        arrowField.appendChild(arrow);
+
+
+        /*
+            Remove old arrows
+            so the page remains fast.
+        */
+
+        setTimeout(() => {
+
+            arrow.remove();
+
+        }, (duration + 3) * 1000);
+
+    }
+
+
+    /*
+        Create many arrows.
+    */
+
+    for (let i = 0; i < 45; i++) {
+
+        setTimeout(
+            createArrow,
+            i * 120
+        );
+
+    }
+
+
+    /*
+        Keep generating arrows.
+    */
+
+    setInterval(
+        createArrow,
+        350
+    );
+
+
+    /* =========================================================
+       SCROLL REVEAL
+    ========================================================== */
+
+    const revealElements =
+        document.querySelectorAll(".reveal");
+
+
+    const observer =
+        new IntersectionObserver(
+
+            entries => {
+
+                entries.forEach(entry => {
+
+                    if (entry.isIntersecting) {
+
+                        entry.target.classList.add("show");
+
+                    }
+
+                });
+
+            },
+
+            {
+                threshold: 0.15
+            }
+
+        );
+
+
+    revealElements.forEach(element => {
+
+        observer.observe(element);
+
+    });
+
+
+    /* =========================================================
+       MOUSE 3D EFFECT
+    ========================================================== */
+
+    const portal =
+        document.querySelector(".portal-card");
+
+
+    document.addEventListener(
+        "mousemove",
+        event => {
+
+            /*
+                Don't apply this effect
+                on small screens.
+            */
+
+            if (window.innerWidth < 900) {
+                return;
+            }
+
+
+            const x =
+                (event.clientX / window.innerWidth - 0.5);
+
+
+            const y =
+                (event.clientY / window.innerHeight - 0.5);
+
+
+            portal.style.transform = `
+                perspective(1000px)
+                rotateY(${x * 12 - 7}deg)
+                rotateX(${y * -8 + 5}deg)
+                translateY(-5px)
+            `;
+
+        }
+    );
+
+
+    /*
+      Reset card when mouse leaves.
+    */
+
+    document.addEventListener(
+        "mouseleave",
+        () => {
+
+            portal.style.transform = `
+                perspective(1000px)
+                rotateY(-12deg)
+                rotateX(5deg)
+            `;
+
+        }
+    );
+
+</script>
+
+</body>
+</html>
